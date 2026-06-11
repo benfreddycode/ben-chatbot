@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_6.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_7.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +74,7 @@
 
   <div id="chat-view">
     <div id="messages">
-      <div class="msg assistant">⚠️ Kein API-Key gefunden. Öffne die URL mit ?key=dein-key am Ende. Beispiel: ...github.io/ben-chatbot?key=sk-ant-...</div>
+      <div class="msg assistant">Hi Ben — Modus wählen und loslegen.</div>
     </div>
     <div id="input-area">
       <textarea id="user-input" placeholder="Nachricht eingeben..." rows="1"></textarea>
@@ -138,14 +138,7 @@
 </div>
 
 <script>
-// Read API key from URL — e.g. ?key=sk-ant-...
-const API_KEY = new URLSearchParams(window.location.search).get('key') || '';
-if (!API_KEY) {
-  window.addEventListener('DOMContentLoaded', () => {
-    const msg = document.querySelector('.msg.assistant');
-    if (msg) msg.textContent = '⚠️ Kein API-Key gefunden. Öffne die URL mit ?key=dein-key am Ende. Beispiel: ...github.io/ben-chatbot?key=sk-ant-...';
-  });
-}
+const BACKEND_URL = 'https://ben-chatbot-backend.onrender.com/chat';
 
 let currentLang = 'de';
 let currentMode = 'research';
@@ -282,9 +275,9 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
   btn.textContent = currentLang === 'de' ? 'Wird generiert...' : 'Generating...';
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch(BACKEND_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -336,9 +329,9 @@ async function sendMessage() {
   const loadingEl = addMsg('assistant loading', UI[currentLang].loading);
   document.getElementById('send-btn').disabled = true;
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch(BACKEND_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
