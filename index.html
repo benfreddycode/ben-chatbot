@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_4.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_5.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,11 +85,11 @@
   <div id="inbound-view">
     <div id="inbound-form">
       <div class="field-group">
-        <label class="field-label" id="lbl-name">Name des Prospects</label>
+        <label class="field-label" id="lbl-name">Prospect Name</label>
         <input class="field-input" id="f-name" type="text" placeholder="z.B. Thomas Müller">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-company">Unternehmen</label>
+        <label class="field-label" id="lbl-company">Company Name</label>
         <input class="field-input" id="f-company" type="text" placeholder="z.B. Müller Logistics GmbH">
       </div>
       <div class="field-group">
@@ -97,13 +97,13 @@
         <input class="field-input" id="f-position" type="text" placeholder="z.B. Head of Logistics">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-product">Interessiertes Produkt / Feature</label>
+        <label class="field-label" id="lbl-product">Interested Product / Feature</label>
         <input class="field-input" id="f-product" type="text" placeholder="z.B. Rate Management, Booking Portal">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-leadtype">Lead Typ</label>
+        <label class="field-label" id="lbl-leadtype">Lead Type</label>
         <select class="field-input" id="f-leadtype">
-          <option value="" id="opt-placeholder">— Lead Typ wählen —</option>
+          <option value="" id="opt-placeholder">— Lead Type wählen —</option>
           <option value="Demo Request">Demo Request</option>
           <option value="Target Account">Target Account</option>
           <option value="Terminal Pricing Page View">Terminal Pricing Page View</option>
@@ -117,7 +117,7 @@
         </select>
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-notes">Zusätzliche Notizen</label>
+        <label class="field-label" id="lbl-notes">Additional Notes</label>
         <textarea class="field-input" id="f-notes" style="min-height: 100px;" placeholder="z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext..."></textarea>
       </div>
     </div>
@@ -138,6 +138,15 @@
 </div>
 
 <script>
+// Read API key from URL — e.g. ?key=sk-ant-...
+const API_KEY = new URLSearchParams(window.location.search).get('key') || '';
+if (!API_KEY) {
+  window.addEventListener('DOMContentLoaded', () => {
+    const msg = document.querySelector('.msg.assistant');
+    if (msg) msg.textContent = '⚠️ Kein API-Key gefunden. Öffne die URL mit ?key=dein-key am Ende. Beispiel: ...github.io/ben-chatbot?key=sk-ant-...';
+  });
+}
+
 let currentLang = 'de';
 let currentMode = 'research';
 let history = [];
@@ -275,11 +284,7 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: INBOUND_SYSTEM[currentLang],
+      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01' },
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -329,11 +334,7 @@ async function sendMessage() {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: MODES[currentMode][currentLang].system,
+      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01' },
         messages: history
       })
     });
