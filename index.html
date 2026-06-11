@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_2.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_3.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,6 @@
   .mode-btn { padding: 6px 13px; border-radius: 20px; border: 0.5px solid #333; background: #1a1a1a; color: #666; cursor: pointer; font-size: 13px; transition: all 0.15s; }
   .mode-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
   #mode-hint { font-size: 11px; color: #555; padding: 5px 20px 6px; background: #161616; }
-
-  /* Chat view */
   #chat-view { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   #messages { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
   .msg { max-width: 82%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
@@ -32,8 +30,6 @@
   #user-input::placeholder { color: #444; }
   #send-btn { padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; height: 40px; background: #eee; color: #111; border: none; font-weight: 500; }
   #send-btn:disabled { background: #333; color: #666; cursor: default; }
-
-  /* Inbound form view */
   #inbound-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
   #inbound-form { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
   .field-group { display: flex; flex-direction: column; gap: 6px; }
@@ -41,16 +37,16 @@
   .field-input { padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; background: #111; color: #ddd; outline: none; width: 100%; }
   .field-input:focus { border-color: #555; }
   .field-input::placeholder { color: #444; }
-  textarea.field-input { resize: none; min-height: 80px; }
+  select.field-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  select.field-input option { background: #1a1a1a; color: #ddd; }
+  textarea.field-input { resize: none; min-height: 70px; }
   #inbound-actions { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; }
   #generate-btn { flex: 1; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; background: #eee; color: #111; border: none; font-weight: 500; }
   #generate-btn:disabled { background: #333; color: #666; cursor: default; }
   #clear-form-btn { padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; background: transparent; color: #555; border: 0.5px solid #333; }
-
-  /* Inbound result */
   #inbound-result { display: none; flex-direction: column; flex: 1; overflow: hidden; }
   #result-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 0.5px solid #2e2e2e; }
-  #result-header span { font-size: 12px; color: #777; }
+  #result-label { font-size: 12px; color: #777; }
   #back-btn { font-size: 13px; color: #888; background: transparent; border: 0.5px solid #333; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
   #result-text { flex: 1; overflow-y: auto; padding: 20px; font-size: 14px; line-height: 1.7; color: #ddd; white-space: pre-wrap; }
   #copy-btn { margin: 0 20px 16px; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; background: #2a2a2a; color: #ccc; border: 0.5px solid #333; }
@@ -68,16 +64,15 @@
       </div>
     </div>
     <div id="mode-bar">
-      <button class="mode-btn" data-mode="research">🔍 Research</button>
+      <button class="mode-btn active" data-mode="research">🔍 Research</button>
       <button class="mode-btn" data-mode="outreach">✉️ Outreach</button>
-      <button class="mode-btn active" data-mode="inbound">📥 Inbound</button>
+      <button class="mode-btn" data-mode="inbound">📥 Inbound</button>
       <button class="mode-btn" data-mode="internal">👥 Internal</button>
     </div>
   </div>
-  <div id="mode-hint">Inbound Lead — DE</div>
+  <div id="mode-hint">Research — DE</div>
 
-  <!-- Chat view (research, outreach, internal) -->
-  <div id="chat-view" style="display: none;">
+  <div id="chat-view">
     <div id="messages">
       <div class="msg assistant">Hi Ben — Modus wählen und loslegen.</div>
     </div>
@@ -87,12 +82,15 @@
     </div>
   </div>
 
-  <!-- Inbound form view -->
-  <div id="inbound-view" style="display: flex;">
+  <div id="inbound-view">
     <div id="inbound-form">
       <div class="field-group">
         <label class="field-label" id="lbl-name">Name des Prospects</label>
         <input class="field-input" id="f-name" type="text" placeholder="z.B. Thomas Müller">
+      </div>
+      <div class="field-group">
+        <label class="field-label" id="lbl-company">Unternehmen</label>
+        <input class="field-input" id="f-company" type="text" placeholder="z.B. Müller Logistics GmbH">
       </div>
       <div class="field-group">
         <label class="field-label" id="lbl-position">Position</label>
@@ -103,8 +101,20 @@
         <input class="field-input" id="f-product" type="text" placeholder="z.B. Rate Management, Booking Portal">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-mql">MQL-Kriterien</label>
-        <textarea class="field-input" id="f-mql" placeholder="z.B. 50+ Mitarbeiter, aktiver Spediteur, DACH-Markt"></textarea>
+        <label class="field-label" id="lbl-leadtype">Lead Typ</label>
+        <select class="field-input" id="f-leadtype">
+          <option value="" id="opt-placeholder">— Lead Typ wählen —</option>
+          <option value="Demo Request">Demo Request</option>
+          <option value="Target Account">Target Account</option>
+          <option value="Terminal Pricing Page View">Terminal Pricing Page View</option>
+          <option value="Terminal Logins 4x/month+">Terminal Logins 4x/month+</option>
+          <option value="Terminal in-app upgrade intent">Terminal in-app upgrade intent</option>
+          <option value="Attended Enterprise Product Tour">Attended Enterprise Product Tour</option>
+          <option value="Terminal ROI Calculator">Terminal ROI Calculator</option>
+          <option value="Account Signup">Account Signup</option>
+          <option value="Upgrade Pack">Upgrade Pack</option>
+          <option value="Content Download">Content Download</option>
+        </select>
       </div>
     </div>
     <div id="inbound-actions">
@@ -113,8 +123,7 @@
     </div>
   </div>
 
-  <!-- Inbound result view -->
-  <div id="inbound-result" style="display: none;">
+  <div id="inbound-result">
     <div id="result-header">
       <span id="result-label">Generierte Antwort</span>
       <button id="back-btn">← Felder bearbeiten</button>
@@ -131,27 +140,27 @@ let history = [];
 
 const MODES = {
   research: {
-    de: { hint: 'Research — DE', system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS (Software as a Service) Sales-Profi in Barcelona mit Fokus auf den DACH-Markt (Deutschland, Österreich, Schweiz). Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.` },
-    en: { hint: 'Research — EN', system: `You are a sharp research assistant for Ben, a SaaS sales professional based in Barcelona focused on the DACH (Germany, Austria, Switzerland) market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.` }
+    de: { hint: 'Research — DE', system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS Sales-Profi in Barcelona mit Fokus auf den DACH-Markt. Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.` },
+    en: { hint: 'Research — EN', system: `You are a sharp research assistant for Ben, a SaaS sales professional based in Barcelona focused on the DACH market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.` }
   },
   outreach: {
-    de: { hint: 'Outreach Email — DE', system: `Du hilfst Ben, einem SaaS Sales-Profi mit Fokus auf den DACH-Markt, professionelle Outreach-Emails zu verfassen. Ben ist Muttersprachler Deutsch, basiert in Barcelona. Ton: professionell aber nahbar — kein steifes Kanzleideutsch, aber auch nicht zu locker. Siez-Form verwenden. Direkt und werteorientiert formulieren, keine generischen Einstiege. Fehlenden Kontext aktiv erfragen. Bei Bedarf 1-2 Varianten anbieten. Emails knackig halten.` },
-    en: { hint: 'Outreach Email — EN', system: `You help Ben, a SaaS sales professional targeting the DACH market, draft outreach emails. Tone: professional but approachable. Be direct and value-focused, no generic openers. Ask for missing context if needed. Offer 1-2 variants when appropriate. Keep emails concise.` }
+    de: { hint: 'Outreach Email — DE', system: `Du hilfst Ben, einem SaaS Sales-Profi mit Fokus auf den DACH-Markt, professionelle Outreach-Emails zu verfassen. Ben ist Muttersprachler Deutsch, basiert in Barcelona. Ton: professionell aber nahbar. Siez-Form. Direkt und werteorientiert, keine generischen Einstiege. Fehlenden Kontext aktiv erfragen. Bei Bedarf 1-2 Varianten anbieten. Knackig halten.` },
+    en: { hint: 'Outreach Email — EN', system: `You help Ben, a SaaS sales professional targeting the DACH market, draft outreach emails. Tone: professional but approachable. Direct and value-focused, no generic openers. Ask for missing context if needed. Offer 1-2 variants when appropriate. Keep emails concise.` }
   },
   internal: {
-    de: { hint: 'Internal Email — DE', system: `Du hilfst Ben, interne Emails an Kollegen, Manager und Ops-Teams zu verfassen. Struktur: Kontext, Anfrage oder Update, nächste Schritte. Ton: direkt und professionell, aber nicht förmlich steif. Kein Fülltext. Wenn eine Slack-Nachricht sinnvoller wäre, kurz darauf hinweisen.` },
+    de: { hint: 'Internal Email — DE', system: `Du hilfst Ben, interne Emails an Kollegen, Manager und Ops-Teams zu verfassen. Struktur: Kontext, Anfrage oder Update, nächste Schritte. Ton: direkt und professionell, nicht förmlich steif. Kein Fülltext. Wenn Slack sinnvoller wäre, kurz darauf hinweisen.` },
     en: { hint: 'Internal Email — EN', system: `You help Ben draft internal emails to colleagues, managers and ops teams. Structure: context, ask or update, next steps. Tone: direct and professional, not stiff. No padding. Flag if Slack would be more appropriate.` }
   }
 };
 
 const INBOUND_SYSTEM = {
-  de: `Du hilfst Ben, einem Sales-Profi bei Freightos (eine Freight-Technology-Plattform), professionelle Antworten auf eingehende Leads zu verfassen. Freightos hilft Spediteuren und Verladern, Frachtpreise zu vergleichen, zu buchen und zu verwalten. Ton: professionell aber menschlich — nicht wie eine automatische Antwort, sondern wie ein kompetenter, sympathischer Ansprechpartner. Siez-Form. Die Antwort soll: 1) den Kontakt namentlich ansprechen, 2) das Interesse bestätigen und kurz den Mehrwert von Freightos für ihre spezifische Situation verdeutlichen, 3) immer konkret einen Call oder eine Demo als nächsten Schritt vorschlagen mit einer klaren Handlungsaufforderung. Antwort auf Deutsch verfassen.`,
-  en: `You help Ben, a sales professional at Freightos (a freight technology platform), respond to inbound leads. Freightos helps freight forwarders and shippers compare, book and manage freight rates. Tone: professional but human — not like an automated reply. The response must: 1) address the contact by name, 2) acknowledge their interest and briefly highlight Freightos value for their specific situation, 3) always propose a call or demo as the next step with a clear call to action. Write the response in English.`
+  de: `Du hilfst Ben, einem Sales-Profi bei Freightos (eine Freight-Technology-Plattform), professionelle Antworten auf eingehende Leads zu verfassen. Freightos hilft Spediteuren und Verladern, Frachtpreise zu vergleichen, zu buchen und zu verwalten. Ton: professionell aber menschlich — nicht wie eine automatische Antwort, sondern wie ein kompetenter, sympathischer Ansprechpartner. Siez-Form. Die Antwort soll: 1) den Kontakt namentlich ansprechen, 2) das Interesse bestätigen und kurz den Mehrwert von Freightos für ihre spezifische Situation verdeutlichen, 3) immer konkret einen Call oder eine Demo als nächsten Schritt vorschlagen mit einer klaren Handlungsaufforderung. Passe den Ton und den Inhalt an den Lead-Typ an: Bei einem Demo Request direkt auf die Demo eingehen, bei Pricing Page View auf Transparenz und Wettbewerbsfähigkeit der Preise, bei Logins oder Upgrade Intent auf den konkreten Mehrwert eines Upgrades. Antwort auf Deutsch verfassen.`,
+  en: `You help Ben, a sales professional at Freightos (a freight technology platform), respond to inbound leads. Freightos helps freight forwarders and shippers compare, book and manage freight rates. Tone: professional but human — not like an automated reply. The response must: 1) address the contact by name, 2) acknowledge their interest and briefly highlight Freightos value for their specific situation, 3) always propose a call or demo as the next step with a clear call to action. Adapt tone and content to the lead type: for a Demo Request focus on the demo value, for Pricing Page View highlight pricing transparency, for Logins or Upgrade Intent focus on upgrade benefits. Write the response in English.`
 };
 
 const FIELD_LABELS = {
-  de: { name: 'Name des Prospects', position: 'Position', product: 'Interessiertes Produkt / Feature', mql: 'MQL-Kriterien', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', placeholder_name: 'z.B. Thomas Müller', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_mql: 'z.B. 50+ Mitarbeiter, aktiver Spediteur, DACH-Markt' },
-  en: { name: 'Prospect Name', position: 'Position', product: 'Interested Product / Feature', mql: 'MQL Criteria', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', placeholder_name: 'e.g. Thomas Müller', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_mql: 'e.g. 50+ employees, active freight forwarder, DACH market' }
+  de: { name: 'Name des Prospects', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal' },
+  en: { name: 'Prospect Name', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal' }
 };
 
 const UI = {
@@ -160,42 +169,33 @@ const UI = {
 };
 
 function updateHint() {
-  if (currentMode === 'inbound') {
-    document.getElementById('mode-hint').textContent = 'Inbound Lead — ' + currentLang.toUpperCase();
-  } else {
-    document.getElementById('mode-hint').textContent = MODES[currentMode][currentLang].hint;
-  }
+  document.getElementById('mode-hint').textContent = currentMode === 'inbound'
+    ? 'Inbound Lead — ' + currentLang.toUpperCase()
+    : MODES[currentMode][currentLang].hint;
 }
 
 function updateFieldLabels() {
   const L = FIELD_LABELS[currentLang];
   document.getElementById('lbl-name').textContent = L.name;
+  document.getElementById('lbl-company').textContent = L.company;
   document.getElementById('lbl-position').textContent = L.position;
   document.getElementById('lbl-product').textContent = L.product;
-  document.getElementById('lbl-mql').textContent = L.mql;
+  document.getElementById('lbl-leadtype').textContent = L.leadtype;
   document.getElementById('generate-btn').textContent = L.generate;
   document.getElementById('result-label').textContent = L.result;
   document.getElementById('copy-btn').textContent = L.copy;
   document.getElementById('back-btn').textContent = L.back;
+  document.getElementById('opt-placeholder').textContent = L.opt_placeholder;
   document.getElementById('f-name').placeholder = L.placeholder_name;
+  document.getElementById('f-company').placeholder = L.placeholder_company;
   document.getElementById('f-position').placeholder = L.placeholder_position;
   document.getElementById('f-product').placeholder = L.placeholder_product;
-  document.getElementById('f-mql').placeholder = L.placeholder_mql;
 }
 
 function showView(mode) {
-  const chatView = document.getElementById('chat-view');
-  const inboundView = document.getElementById('inbound-view');
-  const inboundResult = document.getElementById('inbound-result');
-  if (mode === 'inbound') {
-    chatView.style.display = 'none';
-    inboundResult.style.display = 'none';
-    inboundView.style.display = 'flex';
-  } else {
-    chatView.style.display = 'flex';
-    inboundView.style.display = 'none';
-    inboundResult.style.display = 'none';
-  }
+  document.getElementById('chat-view').style.display = mode === 'inbound' ? 'none' : 'flex';
+  document.getElementById('inbound-view').style.display = mode === 'inbound' ? 'flex' : 'none';
+  document.getElementById('inbound-result').style.display = 'none';
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -228,9 +228,10 @@ document.getElementById('back-btn').addEventListener('click', () => {
 
 document.getElementById('clear-form-btn').addEventListener('click', () => {
   document.getElementById('f-name').value = '';
+  document.getElementById('f-company').value = '';
   document.getElementById('f-position').value = '';
   document.getElementById('f-product').value = '';
-  document.getElementById('f-mql').value = '';
+  document.getElementById('f-leadtype').value = '';
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
@@ -245,21 +246,23 @@ document.getElementById('copy-btn').addEventListener('click', () => {
 
 document.getElementById('generate-btn').addEventListener('click', async () => {
   const name = document.getElementById('f-name').value.trim();
+  const company = document.getElementById('f-company').value.trim();
   const position = document.getElementById('f-position').value.trim();
   const product = document.getElementById('f-product').value.trim();
-  const mql = document.getElementById('f-mql').value.trim();
+  const leadtype = document.getElementById('f-leadtype').value;
 
-  if (!name && !product) {
-    alert(currentLang === 'de' ? 'Bitte mindestens Name und Produkt ausfüllen.' : 'Please fill in at least name and product.');
+  if (!name || !leadtype) {
+    alert(currentLang === 'de' ? 'Bitte mindestens Name und Lead Typ ausfüllen.' : 'Please fill in at least prospect name and lead type.');
     return;
   }
 
   const prompt = currentLang === 'de'
-    ? `Prospect: ${name || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${product || 'unbekannt'}\nMQL-Kriterien: ${mql || 'keine Angabe'}\n\nBitte verfasse eine professionelle Antwort-Email auf diesen Inbound Lead.`
-    : `Prospect: ${name || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${product || 'unknown'}\nMQL Criteria: ${mql || 'not specified'}\n\nPlease draft a professional response email for this inbound lead.`;
+    ? `Prospect: ${name}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${product || 'unbekannt'}\nLead Typ: ${leadtype}\n\nBitte verfasse eine professionelle Antwort-Email auf diesen Inbound Lead.`
+    : `Prospect: ${name}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${product || 'unknown'}\nLead Type: ${leadtype}\n\nPlease draft a professional response email for this inbound lead.`;
 
-  document.getElementById('generate-btn').disabled = true;
-  document.getElementById('generate-btn').textContent = currentLang === 'de' ? 'Wird generiert...' : 'Generating...';
+  const btn = document.getElementById('generate-btn');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'de' ? 'Wird generiert...' : 'Generating...';
 
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -281,9 +284,8 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
     alert(currentLang === 'de' ? 'Fehler: API nicht erreichbar.' : 'Error: could not reach the API.');
   }
 
-  const L = FIELD_LABELS[currentLang];
-  document.getElementById('generate-btn').disabled = false;
-  document.getElementById('generate-btn').textContent = L.generate;
+  btn.disabled = false;
+  btn.textContent = FIELD_LABELS[currentLang].generate;
 });
 
 document.getElementById('user-input').addEventListener('keydown', e => {
@@ -328,7 +330,7 @@ async function sendMessage() {
       })
     });
     const data = await resp.json();
-    const reply = data.content?.find(b => b.type === 'text')?.text || 'No response received.';
+    const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
     loadingEl.classList.remove('loading');
     loadingEl.textContent = reply;
     history.push({ role: 'assistant', content: reply });
