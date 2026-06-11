@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_7.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_8.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -279,7 +279,7 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         system: INBOUND_SYSTEM[currentLang],
         messages: [{ role: 'user', content: prompt }]
@@ -333,7 +333,7 @@ async function sendMessage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         system: MODES[currentMode][currentLang].system,
         messages: history
