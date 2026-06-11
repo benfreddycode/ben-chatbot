@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_3.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_4.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,6 +116,10 @@
           <option value="Content Download">Content Download</option>
         </select>
       </div>
+      <div class="field-group">
+        <label class="field-label" id="lbl-notes">Zusätzliche Notizen</label>
+        <textarea class="field-input" id="f-notes" style="min-height: 100px;" placeholder="z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext..."></textarea>
+      </div>
     </div>
     <div id="inbound-actions">
       <button id="clear-form-btn">Reset</button>
@@ -159,8 +163,8 @@ const INBOUND_SYSTEM = {
 };
 
 const FIELD_LABELS = {
-  de: { name: 'Name des Prospects', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal' },
-  en: { name: 'Prospect Name', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal' }
+  de: { name: 'Name des Prospects', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
+  en: { name: 'Prospect Name', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
 };
 
 const UI = {
@@ -181,6 +185,7 @@ function updateFieldLabels() {
   document.getElementById('lbl-position').textContent = L.position;
   document.getElementById('lbl-product').textContent = L.product;
   document.getElementById('lbl-leadtype').textContent = L.leadtype;
+  document.getElementById('lbl-notes').textContent = L.notes;
   document.getElementById('generate-btn').textContent = L.generate;
   document.getElementById('result-label').textContent = L.result;
   document.getElementById('copy-btn').textContent = L.copy;
@@ -189,7 +194,7 @@ function updateFieldLabels() {
   document.getElementById('f-name').placeholder = L.placeholder_name;
   document.getElementById('f-company').placeholder = L.placeholder_company;
   document.getElementById('f-position').placeholder = L.placeholder_position;
-  document.getElementById('f-product').placeholder = L.placeholder_product;
+  document.getElementById('f-notes').placeholder = L.placeholder_notes;
 }
 
 function showView(mode) {
@@ -232,6 +237,7 @@ document.getElementById('clear-form-btn').addEventListener('click', () => {
   document.getElementById('f-position').value = '';
   document.getElementById('f-product').value = '';
   document.getElementById('f-leadtype').value = '';
+  document.getElementById('f-notes').value = '';
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
@@ -251,14 +257,16 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
   const product = document.getElementById('f-product').value.trim();
   const leadtype = document.getElementById('f-leadtype').value;
 
+  const notes = document.getElementById('f-notes').value.trim();
+
   if (!name || !leadtype) {
     alert(currentLang === 'de' ? 'Bitte mindestens Name und Lead Typ ausfüllen.' : 'Please fill in at least prospect name and lead type.');
     return;
   }
 
   const prompt = currentLang === 'de'
-    ? `Prospect: ${name}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${product || 'unbekannt'}\nLead Typ: ${leadtype}\n\nBitte verfasse eine professionelle Antwort-Email auf diesen Inbound Lead.`
-    : `Prospect: ${name}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${product || 'unknown'}\nLead Type: ${leadtype}\n\nPlease draft a professional response email for this inbound lead.`;
+    ? `Prospect: ${name}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${product || 'unbekannt'}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}\n\nBitte verfasse eine professionelle Antwort-Email auf diesen Inbound Lead.`
+    : `Prospect: ${name}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${product || 'unknown'}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}\n\nPlease draft a professional response email for this inbound lead.`;
 
   const btn = document.getElementById('generate-btn');
   btn.disabled = true;
