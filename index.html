@@ -1,76 +1,137 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///C:/Users/bechir.benfredj_frei/Downloads/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_1.html -->
+<html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ben's Sales Assistant</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, sans-serif; background: #f5f5f3; display: flex; justify-content: center; padding: 24px 16px; min-height: 100vh; }
-  #app { width: 100%; max-width: 720px; display: flex; flex-direction: column; height: calc(100vh - 48px); background: #fff; border-radius: 12px; border: 0.5px solid #ddd; overflow: hidden; }
-  #header { padding: 16px 20px 0; border-bottom: 0.5px solid #e5e5e5; }
-  h1 { font-size: 15px; font-weight: 500; color: #111; margin-bottom: 12px; }
-  #mode-bar { display: flex; gap: 8px; padding-bottom: 12px; }
-  .mode-btn { padding: 6px 14px; border-radius: 20px; border: 0.5px solid #ccc; background: #fff; color: #666; cursor: pointer; font-size: 13px; }
-  .mode-btn.active { background: #f0f0ee; color: #111; border-color: #999; font-weight: 500; }
+  body { font-family: system-ui, sans-serif; background: #0d0d0d; display: flex; justify-content: center; padding: 24px 16px; min-height: 100vh; }
+  #app { width: 100%; max-width: 720px; display: flex; flex-direction: column; height: calc(100vh - 48px); background: #1a1a1a; border-radius: 12px; border: 0.5px solid #333; overflow: hidden; }
+  #header { padding: 14px 20px 0; border-bottom: 0.5px solid #2e2e2e; }
+  #header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  h1 { font-size: 14px; font-weight: 500; color: #ccc; }
+  #lang-toggle { display: flex; gap: 4px; }
+  .lang-btn { padding: 4px 10px; border-radius: 20px; border: 0.5px solid #444; background: #1a1a1a; color: #666; cursor: pointer; font-size: 12px; }
+  .lang-btn.active { background: #2e2e2e; color: #eee; border-color: #666; }
+  #mode-bar { display: flex; gap: 6px; padding-bottom: 12px; flex-wrap: wrap; }
+  .mode-btn { padding: 6px 13px; border-radius: 20px; border: 0.5px solid #333; background: #1a1a1a; color: #666; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+  .mode-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
   #messages { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
   .msg { max-width: 82%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
-  .msg.user { align-self: flex-end; background: #f0f0ee; border: 0.5px solid #ddd; }
-  .msg.assistant { align-self: flex-start; background: #fff; border: 0.5px solid #ddd; }
-  .msg.loading { color: #999; font-style: italic; }
-  #input-area { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #e5e5e5; align-items: flex-end; }
-  #user-input { flex: 1; resize: none; min-height: 40px; max-height: 120px; padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #ccc; outline: none; }
-  #user-input:focus { border-color: #999; }
-  #send-btn { padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; height: 40px; background: #111; color: #fff; border: none; }
-  #send-btn:disabled { background: #ccc; cursor: default; }
-  #mode-hint { font-size: 11px; color: #999; padding: 4px 20px 8px; }
+  .msg.user { align-self: flex-end; background: #2a2a2a; border: 0.5px solid #3a3a3a; color: #ddd; }
+  .msg.assistant { align-self: flex-start; background: #222; border: 0.5px solid #333; color: #ddd; }
+  .msg.loading { color: #555; font-style: italic; }
+  #input-area { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; align-items: flex-end; }
+  #user-input { flex: 1; resize: none; min-height: 40px; max-height: 120px; padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; outline: none; background: #111; color: #ddd; }
+  #user-input:focus { border-color: #555; }
+  #user-input::placeholder { color: #444; }
+  #send-btn { padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; height: 40px; background: #eee; color: #111; border: none; font-weight: 500; }
+  #send-btn:disabled { background: #333; color: #666; cursor: default; }
+  #mode-hint { font-size: 11px; color: #555; padding: 5px 20px 6px; background: #161616; }
 </style>
 </head>
 <body>
 <div id="app">
   <div id="header">
-    <h1>Ben's Sales Assistant</h1>
+    <div id="header-top">
+      <h1>Ben's Sales Assistant</h1>
+      <div id="lang-toggle">
+        <button class="lang-btn active" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
     <div id="mode-bar">
       <button class="mode-btn active" data-mode="research">🔍 Research</button>
-      <button class="mode-btn" data-mode="outreach">✉️ Outreach email</button>
-      <button class="mode-btn" data-mode="internal">👥 Internal email</button>
+      <button class="mode-btn" data-mode="outreach">✉️ Outreach</button>
+      <button class="mode-btn" data-mode="inbound">📥 Inbound</button>
+      <button class="mode-btn" data-mode="internal">👥 Internal</button>
     </div>
   </div>
-  <div id="mode-hint">Research mode active</div>
+  <div id="mode-hint">Research — DE</div>
   <div id="messages">
-    <div class="msg assistant">Hi Ben — pick a mode above and tell me what you need.</div>
+    <div class="msg assistant">Hi Ben — Modus wählen und loslegen.</div>
   </div>
   <div id="input-area">
-    <textarea id="user-input" placeholder="Type your message..." rows="1"></textarea>
-    <button id="send-btn">Send</button>
+    <textarea id="user-input" placeholder="Nachricht eingeben..." rows="1"></textarea>
+    <button id="send-btn">Senden</button>
   </div>
 </div>
 
 <script>
+let currentLang = 'de';
+let currentMode = 'research';
+let history = [];
+
 const MODES = {
   research: {
-    label: "Research mode active",
-    system: `You are a sharp research assistant for Ben, a SaaS (Software as a Service) sales professional based in Barcelona focused on the DACH (Germany, Austria, Switzerland) market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B (Business to Business) sales context. Flag outdated info. Be direct, no filler. Ben prefers honest takes over sugarcoating.`
+    de: {
+      hint: 'Research — DE',
+      system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS (Software as a Service) Sales-Profi in Barcelona mit Fokus auf den DACH-Markt (Deutschland, Österreich, Schweiz). Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext (Business to Business) relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.`
+    },
+    en: {
+      hint: 'Research — EN',
+      system: `You are a sharp research assistant for Ben, a SaaS (Software as a Service) sales professional based in Barcelona focused on the DACH (Germany, Austria, Switzerland) market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B (Business to Business) sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.`
+    }
   },
   outreach: {
-    label: "Outreach email mode active",
-    system: `You are an expert B2B (Business to Business) sales email writer helping Ben, a SaaS (Software as a Service) sales professional targeting the DACH (Germany, Austria, Switzerland) market. Ben is a native German speaker based in Barcelona. Default to German for DACH prospects unless told otherwise. Use formal Sie address. Be direct and value-focused, no generic intros. Ask for missing context (company, pain point, product) if needed. Offer 1-2 variants with different angles when appropriate. Keep emails concise and punchy (knackig).`
+    de: {
+      hint: 'Outreach Email — DE',
+      system: `Du hilfst Ben, einem SaaS (Software as a Service) Sales-Profi mit Fokus auf den DACH-Markt, professionelle Outreach-Emails zu verfassen. Ben ist Muttersprachler Deutsch, basiert in Barcelona. Ton: professionell aber nahbar — kein steifes Kanzleideutsch, aber auch nicht zu locker. Siez-Form verwenden. Direkt und werteorientiert formulieren, keine generischen Einstiege. Fehlenden Kontext (Unternehmen, Pain Point, Produkt) aktiv erfragen. Bei Bedarf 1-2 Varianten mit unterschiedlichen Winkeln anbieten. Emails knackig halten.`
+    },
+    en: {
+      hint: 'Outreach Email — EN',
+      system: `You help Ben, a SaaS (Software as a Service) sales professional targeting the DACH (Germany, Austria, Switzerland) market, draft outreach emails. Tone: professional but approachable — not stiff, not too casual. Be direct and value-focused, no generic openers. Ask for missing context (company, pain point, product) if needed. Offer 1-2 variants with different angles when appropriate. Keep emails concise.`
+    }
+  },
+  inbound: {
+    de: {
+      hint: 'Inbound Lead — DE',
+      system: `Du hilfst Ben, einem Sales-Profi bei Freightos (eine Freight-Technology-Plattform für den Frachtmarkt), eingehende Leads professionell zu beantworten. Freightos hilft Spediteuren und Verladern, Frachtpreise zu vergleichen, zu buchen und zu verwalten. Ton: professionell aber menschlich — nicht wie eine automatische Antwort, sondern wie ein kompetenter Ansprechpartner. Siez-Form. Ziel: Interesse bestätigen, Mehrwert kurz verdeutlichen, nächsten Schritt vorschlagen (Call, Demo, Rückfrage). Ben gibt dir den Lead-Kontext — frag nach falls er fehlt.`
+    },
+    en: {
+      hint: 'Inbound Lead — EN',
+      system: `You help Ben, a sales professional at Freightos (a freight technology platform), respond to inbound leads. Freightos helps freight forwarders and shippers compare, book and manage freight rates. Tone: professional but human — not like an automated reply, like a competent contact person. Goal: acknowledge interest, briefly highlight value, propose a clear next step (call, demo, follow-up question). Ben will give you the lead context — ask if it's missing.`
+    }
   },
   internal: {
-    label: "Internal email mode active",
-    system: `You are helping Ben, a SaaS (Software as a Service) sales professional, draft clear internal emails to managers, colleagues, and ops teams. Structure: context, ask or update, next steps. Keep tone professional but direct. No padding, no over-politeness. Flag if a Slack message would be more appropriate than an email.`
+    de: {
+      hint: 'Internal Email — DE',
+      system: `Du hilfst Ben, interne Emails an Kollegen, Manager und Ops-Teams zu verfassen. Struktur: Kontext, Anfrage oder Update, nächste Schritte. Ton: direkt und professionell, aber nicht förmlich steif. Kein Fülltext. Wenn eine Slack-Nachricht sinnvoller wäre als eine Email, kurz darauf hinweisen.`
+    },
+    en: {
+      hint: 'Internal Email — EN',
+      system: `You help Ben draft internal emails to colleagues, managers and ops teams. Structure: context, ask or update, next steps. Tone: direct and professional, not stiff. No padding. Flag if a Slack message would be more appropriate than an email.`
+    }
   }
 };
 
-let currentMode = 'research';
-let history = [];
+const UI = {
+  de: { placeholder: 'Nachricht eingeben...', send: 'Senden', loading: 'Wird verarbeitet...', greeting: 'Hi Ben — Modus wählen und loslegen.' },
+  en: { placeholder: 'Type your message...', send: 'Send', loading: 'Thinking...', greeting: 'Hi Ben — pick a mode and get started.' }
+};
+
+function updateHint() {
+  document.getElementById('mode-hint').textContent = MODES[currentMode][currentLang].hint;
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLang = btn.dataset.lang;
+    document.getElementById('user-input').placeholder = UI[currentLang].placeholder;
+    document.getElementById('send-btn').textContent = UI[currentLang].send;
+    updateHint();
+  });
+});
 
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentMode = btn.dataset.mode;
-    document.getElementById('mode-hint').textContent = MODES[currentMode].label;
+    updateHint();
   });
 });
 
@@ -104,7 +165,7 @@ async function sendMessage() {
   addMsg('user', text);
   history.push({ role: 'user', content: text });
 
-  const loadingEl = addMsg('assistant loading', 'Thinking...');
+  const loadingEl = addMsg('assistant loading', UI[currentLang].loading);
   document.getElementById('send-btn').disabled = true;
 
   try {
@@ -114,7 +175,7 @@ async function sendMessage() {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: MODES[currentMode].system,
+        system: MODES[currentMode][currentLang].system,
         messages: history
       })
     });
@@ -125,7 +186,7 @@ async function sendMessage() {
     history.push({ role: 'assistant', content: reply });
   } catch(e) {
     loadingEl.classList.remove('loading');
-    loadingEl.textContent = 'Error: could not reach the API. Check your internet connection and try again.';
+    loadingEl.textContent = 'Fehler: API nicht erreichbar. Bitte erneut versuchen.';
   }
 
   document.getElementById('send-btn').disabled = false;
