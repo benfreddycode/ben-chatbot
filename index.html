@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_9.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_10.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-name">Nachname</label>
+        <label class="field-label" id="lbl-name">Prospect Name</label>
         <input class="field-input" id="f-name" type="text" placeholder="z.B. Thomas Müller">
       </div>
       <div class="field-group">
@@ -179,13 +179,44 @@ const MODES = {
 };
 
 const INBOUND_SYSTEM = {
-  de: `Du hilfst Ben, einem Sales-Profi bei Freightos (eine Freight-Technology-Plattform), professionelle Antworten auf eingehende Leads zu verfassen. Freightos hilft Spediteuren und Verladern, Frachtpreise zu vergleichen, zu buchen und zu verwalten. Ton: professionell aber menschlich — nicht wie eine automatische Antwort, sondern wie ein kompetenter, sympathischer Ansprechpartner. Siez-Form. Die Antwort soll: 1) den Kontakt namentlich ansprechen, 2) das Interesse bestätigen und kurz den Mehrwert von Freightos für ihre spezifische Situation verdeutlichen, 3) immer konkret einen Call oder eine Demo als nächsten Schritt vorschlagen mit einer klaren Handlungsaufforderung. Passe den Ton und den Inhalt an den Lead-Typ an: Bei einem Demo Request direkt auf die Demo eingehen, bei Pricing Page View auf Transparenz und Wettbewerbsfähigkeit der Preise, bei Logins oder Upgrade Intent auf den konkreten Mehrwert eines Upgrades. Antwort auf Deutsch verfassen.`,
-  en: `You help Ben, a sales professional at Freightos (a freight technology platform), respond to inbound leads. Freightos helps freight forwarders and shippers compare, book and manage freight rates. Tone: professional but human — not like an automated reply. The response must: 1) address the contact by name, 2) acknowledge their interest and briefly highlight Freightos value for their specific situation, 3) always propose a call or demo as the next step with a clear call to action. Adapt tone and content to the lead type: for a Demo Request focus on the demo value, for Pricing Page View highlight pricing transparency, for Logins or Upgrade Intent focus on upgrade benefits. Write the response in English.`
+  de: `Du hilfst Ben, einem Sales-Profi bei Freightos, professionelle aber natürlich klingende Antwort-Emails auf eingehende Leads zu schreiben. Freightos ist eine Freight-Technology-Plattform, die Spediteuren hilft, Frachtpreise digital zu vergleichen, anzubieten und zu buchen.
+
+Tonalität: Professionell aber direkt und menschlich. Klingt wie eine echte Person, nicht wie ein Template. Keine Sales-Floskeln, keine Buzzwords, keine aufgeblasenen Formulierungen.
+
+Konkrete Regeln:
+- Beginne immer mit "Hallo, [Anrede] [Nachname],"
+- Zweiter Satz: kurz und spezifisch auf das ansprechen, was der Prospect getan hat (z.B. Demo angefragt, Pricing-Seite besucht, Content heruntergeladen) — kein generisches "vielen Dank für Ihr Interesse"
+- Kein "Als [Position] kennen Sie die Herausforderungen..." — das klingt nach Vorlage
+- Freightos-Nutzen konkret und knapp in 1-2 Sätzen nennen, passend zum Lead-Typ
+- Call-to-Action: direkt fragen ob sie Zeit für ein 20-minütiges Gespräch haben — ein Satz, keine zwei
+- Platzhalter für Kalender-Link: [Kalender-Link]
+- Endet immer mit: "Vielen Dank und beste Grüsse,"
+- Kein Name, keine Firma nach der Grussformel
+- Keine Fettschrift, kein Markdown
+- Keine Gedankenstriche oder Bindestriche zur Satztrennung — Punkte stattdessen verwenden
+- Maximal 5-6 Sätze gesamt. Kurz halten.`,
+
+  en: `You help Ben, a sales professional at Freightos, write professional but natural-sounding response emails to inbound leads. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
+
+Tone: Professional but direct and human. Sounds like a real person, not a template. No sales clichés, no buzzwords.
+
+Rules:
+- Always start with "Hallo, [Salutation] [Last name],"
+- Second sentence: short and specific to what the prospect did — no generic "thank you for your interest"
+- No "As a [Position] you know the challenges..." — sounds like a template
+- Mention Freightos value concisely in 1-2 sentences, matched to the lead type
+- Call to action: directly ask if they have time for a 20-minute call — one sentence
+- Placeholder for calendar link: [Calendar link]
+- Always end with: "Vielen Dank und beste Grüsse,"
+- No name or company after the sign-off
+- No bold text, no markdown
+- Never use dashes or em dashes to connect or separate clauses. Use full stops instead.
+- Maximum 5-6 sentences total. Keep it short.`
 };
 
 const FIELD_LABELS = {
-  de: { anrede: 'Anrede', name: 'Nachname', unknown: 'Interesse/Bedarf unbekannt', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
-  en: { anrede: 'Salutation', name: 'Last Name', unknown: 'Intent unknown', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
+  de: { anrede: 'Anrede', name: 'Prospect Name', unknown: 'Interesse/Bedarf unbekannt', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
+  en: { anrede: 'Salutation', name: 'Prospect Name', unknown: 'Intent unknown', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
 };
 
 const UI = {
