@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_8.html -->
+<!-- saved from url=(0060)file:///C:/Users/bechir.benfredj_frei/Downloads/index_9.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,6 +51,12 @@
   #result-text { flex: 1; overflow-y: auto; padding: 20px; font-size: 14px; line-height: 1.7; color: #ddd; white-space: pre-wrap; }
   #copy-btn { margin: 0 20px 16px; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; background: #2a2a2a; color: #ccc; border: 0.5px solid #333; }
   #copy-btn:hover { background: #333; }
+  .anrede-toggle { display: flex; gap: 6px; }
+  .anrede-btn { flex: 1; padding: 8px; border-radius: 8px; border: 0.5px solid #333; background: #111; color: #666; cursor: pointer; font-size: 14px; text-align: center; }
+  .anrede-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
+  .checkbox-group { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 0.5px solid #333; background: #111; cursor: pointer; }
+  .checkbox-group input { width: 16px; height: 16px; cursor: pointer; accent-color: #aaa; }
+  .checkbox-group label { font-size: 14px; color: #aaa; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -85,7 +91,14 @@
   <div id="inbound-view">
     <div id="inbound-form">
       <div class="field-group">
-        <label class="field-label" id="lbl-name">Name des Prospects</label>
+        <label class="field-label" id="lbl-anrede">Anrede</label>
+        <div class="anrede-toggle">
+          <button class="anrede-btn active" data-anrede="Herr" id="btn-herr">Herr</button>
+          <button class="anrede-btn" data-anrede="Frau" id="btn-frau">Frau</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" id="lbl-name">Nachname</label>
         <input class="field-input" id="f-name" type="text" placeholder="z.B. Thomas Müller">
       </div>
       <div class="field-group">
@@ -115,6 +128,12 @@
           <option value="Upgrade Pack">Upgrade Pack</option>
           <option value="Content Download">Content Download</option>
         </select>
+      </div>
+      <div class="field-group">
+        <div class="checkbox-group" onclick="document.getElementById(&#39;f-unknown&#39;).click()">
+          <input type="checkbox" id="f-unknown">
+          <label id="lbl-unknown" for="f-unknown">Interesse/Bedarf unbekannt</label>
+        </div>
       </div>
       <div class="field-group">
         <label class="field-label" id="lbl-notes">Zusätzliche Notizen</label>
@@ -165,8 +184,8 @@ const INBOUND_SYSTEM = {
 };
 
 const FIELD_LABELS = {
-  de: { name: 'Name des Prospects', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
-  en: { name: 'Prospect Name', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
+  de: { anrede: 'Anrede', name: 'Nachname', unknown: 'Interesse/Bedarf unbekannt', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
+  en: { anrede: 'Salutation', name: 'Last Name', unknown: 'Intent unknown', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
 };
 
 const UI = {
@@ -182,7 +201,9 @@ function updateHint() {
 
 function updateFieldLabels() {
   const L = FIELD_LABELS[currentLang];
+  document.getElementById('lbl-anrede').textContent = L.anrede;
   document.getElementById('lbl-name').textContent = L.name;
+  document.getElementById('lbl-unknown').textContent = L.unknown;
   document.getElementById('lbl-company').textContent = L.company;
   document.getElementById('lbl-position').textContent = L.position;
   document.getElementById('lbl-product').textContent = L.product;
@@ -240,6 +261,10 @@ document.getElementById('clear-form-btn').addEventListener('click', () => {
   document.getElementById('f-product').value = '';
   document.getElementById('f-leadtype').value = '';
   document.getElementById('f-notes').value = '';
+  document.getElementById('f-unknown').checked = false;
+  document.querySelectorAll('.anrede-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-herr').classList.add('active');
+  currentAnrede = 'Herr';
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
@@ -252,23 +277,33 @@ document.getElementById('copy-btn').addEventListener('click', () => {
   });
 });
 
+// Anrede toggle logic
+let currentAnrede = 'Herr';
+document.querySelectorAll('.anrede-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.anrede-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentAnrede = btn.dataset.anrede;
+  });
+});
+
 document.getElementById('generate-btn').addEventListener('click', async () => {
-  const name = document.getElementById('f-name').value.trim();
+  const lastname = document.getElementById('f-name').value.trim();
   const company = document.getElementById('f-company').value.trim();
   const position = document.getElementById('f-position').value.trim();
   const product = document.getElementById('f-product').value.trim();
   const leadtype = document.getElementById('f-leadtype').value;
-
   const notes = document.getElementById('f-notes').value.trim();
+  const unknownIntent = document.getElementById('f-unknown').checked;
 
-  if (!name || !leadtype) {
-    alert(currentLang === 'de' ? 'Bitte mindestens Name und Lead Typ ausfüllen.' : 'Please fill in at least prospect name and lead type.');
+  if (!lastname || !leadtype) {
+    alert(currentLang === 'de' ? 'Bitte mindestens Nachname und Lead Typ ausfüllen.' : 'Please fill in at least last name and lead type.');
     return;
   }
 
   const prompt = currentLang === 'de'
-    ? `Prospect: ${name}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${product || 'unbekannt'}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}\n\nBitte verfasse eine professionelle Antwort-Email auf diesen Inbound Lead.`
-    : `Prospect: ${name}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${product || 'unknown'}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}\n\nPlease draft a professional response email for this inbound lead.`;
+    ? `Anrede: ${currentAnrede} ${lastname}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${unknownIntent ? 'unbekannt — offen formulieren' : (product || 'unbekannt')}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}\n\nBitte verfasse eine professionelle Antwort-Email. Beginne mit "Hallo, ${currentAnrede} ${lastname}," — niemals mit "Sehr geehrte". Kurze, klare Sätze. Keine Fettschrift. Kein Markdown. Email endet mit "Vielen Dank und beste Grüsse," — ohne Name oder Firma darunter.`
+    : `Salutation: ${currentAnrede} ${lastname}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${unknownIntent ? 'unknown — keep email open and exploratory' : (product || 'unknown')}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}\n\nDraft a professional response email. Start with "Hallo, ${currentAnrede} ${lastname}," — never with "Dear". Short, clear sentences. No bold text. No markdown. End with "Vielen Dank und beste Grüsse," — no name or company below.`;
 
   const btn = document.getElementById('generate-btn');
   btn.disabled = true;
