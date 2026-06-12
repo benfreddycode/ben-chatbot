@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_10.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_11.html -->
 <html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +56,7 @@
   .anrede-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
   .checkbox-group { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 0.5px solid #333; background: #111; cursor: pointer; }
   .checkbox-group input { width: 16px; height: 16px; cursor: pointer; accent-color: #aaa; }
-  .checkbox-group label { font-size: 14px; color: #aaa; cursor: pointer; }
+  .checkbox-group label, .checkbox-group span { font-size: 14px; color: #aaa; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -65,8 +65,8 @@
     <div id="header-top">
       <h1>Ben's Sales Assistant</h1>
       <div id="lang-toggle">
-        <button class="lang-btn active" data-lang="de">DE</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
       </div>
     </div>
     <div id="mode-bar">
@@ -76,22 +76,22 @@
       <button class="mode-btn" data-mode="internal">👥 Internal</button>
     </div>
   </div>
-  <div id="mode-hint">Research — DE</div>
+  <div id="mode-hint">Research — EN</div>
 
   <div id="chat-view">
     <div id="messages">
-      <div class="msg assistant">Hi Ben — Modus wählen und loslegen.</div>
+      <div class="msg assistant">Hi Ben — pick a mode and get started.</div>
     </div>
     <div id="input-area">
-      <textarea id="user-input" placeholder="Nachricht eingeben..." rows="1"></textarea>
-      <button id="send-btn">Senden</button>
+      <textarea id="user-input" placeholder="Type your message..." rows="1"></textarea>
+      <button id="send-btn">Send</button>
     </div>
   </div>
 
   <div id="inbound-view">
     <div id="inbound-form">
       <div class="field-group">
-        <label class="field-label" id="lbl-anrede">Anrede</label>
+        <label class="field-label" id="lbl-anrede">Salutation</label>
         <div class="anrede-toggle">
           <button class="anrede-btn active" data-anrede="Herr" id="btn-herr">Herr</button>
           <button class="anrede-btn" data-anrede="Frau" id="btn-frau">Frau</button>
@@ -99,24 +99,24 @@
       </div>
       <div class="field-group">
         <label class="field-label" id="lbl-name">Prospect Name</label>
-        <input class="field-input" id="f-name" type="text" placeholder="z.B. Thomas Müller">
+        <input class="field-input" id="f-name" type="text" placeholder="e.g. Thomas Müller">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-company">Unternehmen</label>
-        <input class="field-input" id="f-company" type="text" placeholder="z.B. Müller Logistics GmbH">
+        <label class="field-label" id="lbl-company">Company Name</label>
+        <input class="field-input" id="f-company" type="text" placeholder="e.g. Müller Logistics GmbH">
       </div>
       <div class="field-group">
         <label class="field-label" id="lbl-position">Position</label>
-        <input class="field-input" id="f-position" type="text" placeholder="z.B. Head of Logistics">
+        <input class="field-input" id="f-position" type="text" placeholder="e.g. Head of Logistics">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-product">Interessiertes Produkt / Feature</label>
+        <label class="field-label" id="lbl-product">Interested Product / Feature</label>
         <input class="field-input" id="f-product" type="text" placeholder="z.B. Rate Management, Booking Portal">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-leadtype">Lead Typ</label>
+        <label class="field-label" id="lbl-leadtype">Lead Type</label>
         <select class="field-input" id="f-leadtype">
-          <option value="" id="opt-placeholder">— Lead Typ wählen —</option>
+          <option value="" id="opt-placeholder">— Select Lead Type —</option>
           <option value="Demo Request">Demo Request</option>
           <option value="Target Account">Target Account</option>
           <option value="Terminal Pricing Page View">Terminal Pricing Page View</option>
@@ -130,42 +130,46 @@
         </select>
       </div>
       <div class="field-group">
-        <div class="checkbox-group" onclick="document.getElementById(&#39;f-unknown&#39;).click()">
+        <label class="checkbox-group" for="f-unknown">
           <input type="checkbox" id="f-unknown">
-          <label id="lbl-unknown" for="f-unknown">Interesse/Bedarf unbekannt</label>
-        </div>
+          <span id="lbl-unknown">Intent unknown</span>
+        </label>
+        <label class="checkbox-group" for="f-existing" style="margin-top: 6px;">
+          <input type="checkbox" id="f-existing">
+          <span id="lbl-existing">Existing client</span>
+        </label>
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-notes">Zusätzliche Notizen</label>
-        <textarea class="field-input" id="f-notes" style="min-height: 100px;" placeholder="z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext..."></textarea>
+        <label class="field-label" id="lbl-notes">Additional Notes</label>
+        <textarea class="field-input" id="f-notes" style="min-height: 100px;" placeholder="e.g. lead&#39;s original message, special requirements, context..."></textarea>
       </div>
     </div>
     <div id="inbound-actions">
       <button id="clear-form-btn">Reset</button>
-      <button id="generate-btn">Generieren ✦</button>
+      <button id="generate-btn">Generate ✦</button>
     </div>
   </div>
 
   <div id="inbound-result">
     <div id="result-header">
-      <span id="result-label">Generierte Antwort</span>
-      <button id="back-btn">← Felder bearbeiten</button>
+      <span id="result-label">Generated response</span>
+      <button id="back-btn">← Edit fields</button>
     </div>
     <div id="result-text"></div>
-    <button id="copy-btn">In Zwischenablage kopieren</button>
+    <button id="copy-btn">Copy to clipboard</button>
   </div>
 </div>
 
 <script>
 const BACKEND_URL = 'https://ben-chatbot-backend.onrender.com/chat';
 
-let currentLang = 'de';
+let currentLang = 'en';
 let currentMode = 'research';
 let history = [];
 
 const MODES = {
   research: {
-    de: { hint: 'Research — DE', system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS Sales-Profi in Barcelona mit Fokus auf den DACH-Markt. Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.` },
+    de: { hint: 'Research — EN', system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS Sales-Profi in Barcelona mit Fokus auf den DACH-Markt. Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.` },
     en: { hint: 'Research — EN', system: `You are a sharp research assistant for Ben, a SaaS sales professional based in Barcelona focused on the DACH market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.` }
   },
   outreach: {
@@ -193,8 +197,9 @@ Konkrete Regeln:
 - Endet immer mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown
-- Keine Gedankenstriche oder Bindestriche zur Satztrennung — Punkte stattdessen verwenden
-- Maximal 5-6 Sätze gesamt. Kurz halten.`,
+- Keine Gedankenstriche oder Bindestriche zur Satztrennung. Punkte stattdessen verwenden.
+- Maximal 5-6 Sätze gesamt. Kurz halten.
+- Wenn Kundentyp 'Bestehender Kunde': Ton noch persönlicher, kein Intro über Freightos nötig, direkt auf den Mehrwert des Upgrades oder Features eingehen und auf die bestehende Beziehung Bezug nehmen.`,
 
   en: `You help Ben, a sales professional at Freightos, write professional but natural-sounding response emails to inbound leads. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
 
@@ -211,12 +216,13 @@ Rules:
 - No name or company after the sign-off
 - No bold text, no markdown
 - Never use dashes or em dashes to connect or separate clauses. Use full stops instead.
-- Maximum 5-6 sentences total. Keep it short.`
+- Maximum 5-6 sentences total. Keep it short.
+- If client type is 'Existing client': make the tone more personal, skip the Freightos intro, reference the existing relationship and focus directly on the upgrade or feature value.`
 };
 
 const FIELD_LABELS = {
-  de: { anrede: 'Anrede', name: 'Prospect Name', unknown: 'Interesse/Bedarf unbekannt', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
-  en: { anrede: 'Salutation', name: 'Prospect Name', unknown: 'Intent unknown', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
+  de: { anrede: 'Anrede', name: 'Prospect Name', unknown: 'Interesse/Bedarf unbekannt', existing: 'Bestehender Kunde', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
+  en: { anrede: 'Salutation', name: 'Prospect Name', unknown: 'Intent unknown', existing: 'Existing client', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
 };
 
 const UI = {
@@ -235,6 +241,7 @@ function updateFieldLabels() {
   document.getElementById('lbl-anrede').textContent = L.anrede;
   document.getElementById('lbl-name').textContent = L.name;
   document.getElementById('lbl-unknown').textContent = L.unknown;
+  document.getElementById('lbl-existing').textContent = L.existing;
   document.getElementById('lbl-company').textContent = L.company;
   document.getElementById('lbl-position').textContent = L.position;
   document.getElementById('lbl-product').textContent = L.product;
@@ -293,9 +300,11 @@ document.getElementById('clear-form-btn').addEventListener('click', () => {
   document.getElementById('f-leadtype').value = '';
   document.getElementById('f-notes').value = '';
   document.getElementById('f-unknown').checked = false;
+  document.getElementById('f-existing').checked = false;
   document.querySelectorAll('.anrede-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btn-herr').classList.add('active');
   currentAnrede = 'Herr';
+  updateFieldLabels();
 });
 
 document.getElementById('copy-btn').addEventListener('click', () => {
@@ -326,6 +335,7 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
   const leadtype = document.getElementById('f-leadtype').value;
   const notes = document.getElementById('f-notes').value.trim();
   const unknownIntent = document.getElementById('f-unknown').checked;
+  const existingClient = document.getElementById('f-existing').checked;
 
   if (!lastname || !leadtype) {
     alert(currentLang === 'de' ? 'Bitte mindestens Nachname und Lead Typ ausfüllen.' : 'Please fill in at least last name and lead type.');
@@ -333,8 +343,8 @@ document.getElementById('generate-btn').addEventListener('click', async () => {
   }
 
   const prompt = currentLang === 'de'
-    ? `Anrede: ${currentAnrede} ${lastname}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${unknownIntent ? 'unbekannt — offen formulieren' : (product || 'unbekannt')}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}\n\nBitte verfasse eine professionelle Antwort-Email. Beginne mit "Hallo, ${currentAnrede} ${lastname}," — niemals mit "Sehr geehrte". Kurze, klare Sätze. Keine Fettschrift. Kein Markdown. Email endet mit "Vielen Dank und beste Grüsse," — ohne Name oder Firma darunter.`
-    : `Salutation: ${currentAnrede} ${lastname}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${unknownIntent ? 'unknown — keep email open and exploratory' : (product || 'unknown')}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}\n\nDraft a professional response email. Start with "Hallo, ${currentAnrede} ${lastname}," — never with "Dear". Short, clear sentences. No bold text. No markdown. End with "Vielen Dank und beste Grüsse," — no name or company below.`;
+    ? `Anrede: ${currentAnrede} ${lastname}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${unknownIntent ? 'unbekannt — offen formulieren' : (product || 'unbekannt')}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}${existingClient ? '\nKundentyp: Bestehender Kunde' : ''}\n\nBitte verfasse eine professionelle Antwort-Email. Beginne mit "Hallo, ${currentAnrede} ${lastname}," — niemals mit "Sehr geehrte". Kurze, klare Sätze. Keine Fettschrift. Kein Markdown. Email endet mit "Vielen Dank und beste Grüsse," — ohne Name oder Firma darunter.`
+    : `Salutation: ${currentAnrede} ${lastname}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${unknownIntent ? 'unknown — keep email open and exploratory' : (product || 'unknown')}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}${existingClient ? '\nClient type: Existing client' : ''}\n\nDraft a professional response email. Start with "Hallo, ${currentAnrede} ${lastname}," — never with "Dear". Short, clear sentences. No bold text. No markdown. End with "Vielen Dank und beste Grüsse," — no name or company below.`;
 
   const btn = document.getElementById('generate-btn');
   btn.disabled = true;
