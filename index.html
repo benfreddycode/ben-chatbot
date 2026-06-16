@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_13.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_14.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,16 +68,16 @@ textarea.field-input { resize: none; }
       </div>
     </div>
     <div id="mode-bar">
-      <button class="mode-btn" data-mode="research">Research</button>
-      <button class="mode-btn active" data-mode="outbound">Outbound</button>
+      <button class="mode-btn active" data-mode="research">Research</button>
+      <button class="mode-btn" data-mode="outbound">Outbound</button>
       <button class="mode-btn" data-mode="inbound">Inbound</button>
       <button class="mode-btn" data-mode="internal">Internal</button>
     </div>
   </div>
-  <div id="mode-hint">Outbound — EN</div>
+  <div id="mode-hint">Research — EN</div>
 
   <!-- CHAT VIEW (Research + Internal) -->
-  <div id="chat-view" class="view">
+  <div id="chat-view" class="view active">
     <div id="messages">
       <div class="msg assistant">Hi Ben — pick a mode and get started.</div>
     </div>
@@ -88,7 +88,7 @@ textarea.field-input { resize: none; }
   </div>
 
   <!-- OUTBOUND FORM -->
-  <div id="outbound-view" class="view active">
+  <div id="outbound-view" class="view">
     <div class="form-scroll">
       <div class="field-group">
         <div class="field-label" id="lbl-ob-type">Type</div>
@@ -115,6 +115,10 @@ textarea.field-input { resize: none; }
       <div class="field-group">
         <div class="field-label" id="lbl-ob-company">Company Name</div>
         <input class="field-input" id="ob-company" type="text" placeholder="e.g. Müller Logistics GmbH">
+      </div>
+      <div class="field-group hidden" id="ob-lastcontact-group">
+        <div class="field-label" id="lbl-ob-lastcontact">Last Contact With</div>
+        <input class="field-input" id="ob-lastcontact" type="text" placeholder="e.g. Q4 2024, March 2025">
       </div>
       <div class="field-group hidden" id="ob-closedate-group">
         <div class="field-label" id="lbl-ob-closedate">Close Date (if known)</div>
@@ -310,32 +314,38 @@ Rules:
 
 Freightos ist eine Freight-Technology-Plattform: digitaler Preisvergleich, Angebotsstellung und Buchung von Frachtraten.
 
+Tonalität: Professionell aber locker und direkt. Klingt wie eine echte Person, nicht wie ein Template. Nicht aufdringlich.
+
 Regeln:
 - Beginne mit "Hallo, [Anrede] [Nachname],"
-- Beziehe dich kurz auf den früheren Kontakt — nicht aufdringlich, sondern natürlich
-- Falls ein Ablehnungsgrund bekannt ist: adressiere ihn kurz und direkt
-- Freightos-Nutzen in einem Satz, konkret
-- CTA: 15-20 minütiger Discovery Call
+- Beziehe dich auf den letzten Kontakt — verwende EXAKT den angegebenen Zeitraum (z.B. "Q4 2024", "März 2025") — niemals interpretieren oder umformulieren zu "Ende letzten Jahres" o.ä.
+- Falls ein Ablehnungsgrund bekannt ist: adressiere ihn kurz und direkt, ohne defensiv zu klingen
+- Freightos-Nutzen in einem Satz, konkret und passend zum Kontext
+- Stelle eine echte, offene Frage zur aktuellen Situation des Prospects (z.B. "Wie sieht es bei Ihnen aktuell in dem Bereich aus?")
+- CTA: 15-20 minütiger Discovery Call — ein Satz
 - Platzhalter: [Kalender-Link]
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown, keine Gedankenstriche
-- Maximal 5 Sätze. Kurz und direkt.`,
+- Maximal 5-6 Sätze.`,
     en: `You help Ben, an SDR at Freightos, write re-engagement emails to closed lost deals. These contacts already know Freightos.
 
 Freightos is a freight technology platform: digital rate comparison, quoting and booking.
 
+Tone: Professional but relaxed and direct. Real person, not a template. Not pushy.
+
 Rules:
 - Start with "Hallo, [Salutation] [Last name],"
-- Briefly reference the previous contact — naturally, not pushy
-- If a rejection reason is known: address it briefly and directly
-- Freightos value in one sentence, concrete
-- CTA: 15-20 min discovery call
+- Reference the last contact — use EXACTLY the period provided (e.g. "Q4 2024", "March 2025") — never interpret or rephrase to "last year" or similar
+- If a rejection reason is known: address it briefly and directly, without sounding defensive
+- Freightos value in one sentence, concrete and relevant to the context
+- Include a genuine open question about the prospect's current situation (e.g. "How are things looking on that front for you now?")
+- CTA: 15-20 min discovery call — one sentence
 - Placeholder: [Calendar link]
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown, no dashes
-- Max 5 sentences. Short and direct.`
+- Max 5-6 sentences.`
   }
 };
 
@@ -364,6 +374,8 @@ function updateLabels() {
   document.getElementById('lbl-ob-firstname').textContent = de ? 'Vorname' : 'First Name';
   document.getElementById('lbl-ob-lastname').textContent = de ? 'Nachname (Pflichtfeld)' : 'Last Name (required)';
   document.getElementById('lbl-ob-company').textContent = de ? 'Unternehmen' : 'Company Name';
+  document.getElementById('lbl-ob-lastcontact').textContent = de ? 'Letzter Kontakt mit' : 'Last Contact With';
+  document.getElementById('ob-lastcontact').placeholder = de ? 'z.B. Q4 2024, März 2025' : 'e.g. Q4 2024, March 2025';
   document.getElementById('lbl-ob-closedate').textContent = de ? 'Datum letzter Kontakt' : 'Close Date (if known)';
   document.getElementById('lbl-ob-closereason').textContent = de ? 'Ablehnungsgrund' : 'Closed Reason (if known)';
   document.getElementById('lbl-ob-notes').textContent = obSubmode === 'cold' ? (de ? 'Hook / Relevanz (Pflichtfeld)' : 'Hook / Relevance (required)') : (de ? 'Zusätzliche Notizen' : 'Additional Notes');
@@ -494,6 +506,7 @@ document.getElementById('ob-reset-btn').addEventListener('click', () => {
   document.getElementById('ob-firstname').value = '';
   document.getElementById('ob-lastname').value = '';
   document.getElementById('ob-company').value = '';
+  document.getElementById('ob-lastcontact').value = '';
   document.getElementById('ob-closedate').value = '';
   document.getElementById('ob-closereason').value = '';
   document.getElementById('ob-notes').value = '';
