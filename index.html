@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_21.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_22.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -221,6 +221,19 @@ textarea.field-input { resize: none; }
 
 <script>
 const BACKEND_URL = 'https://ben-chatbot-backend.onrender.com/chat';
+
+function formatEmail(text) {
+  // Ensure blank lines between paragraphs — normalize multiple spaces/newlines
+  return text
+    .replace(/
+/g, '
+')
+    .replace(/
+{3,}/g, '
+
+')
+    .trim();
+}
 let lang = 'en';
 let currentMode = 'research';
 let chatHistory = [];
@@ -292,13 +305,15 @@ Regeln:
 - Beginne mit "Hallo, [Anrede] [Nachname],"
 - Nutze den Hook von Ben als Einstieg — nicht erfinden, nicht generisch machen
 - Freightos-Nutzen in einem Satz, konkret und direkt
+- Stelle ZWINGEND eine kurze, offene Frage zur aktuellen Situation — VOR dem CTA, nicht als CTA
 - CTA: 15-20 minütiger Discovery Call — ein Satz
 - Platzhalter: [Kalender-Link]
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown
 - ABSOLUTE PFLICHT: Niemals Gedankenstriche, Bindestriche zur Satztrennung oder em-dashes verwenden. Jeden Gedankenstrich durch einen Punkt ersetzen.
-- Maximal 4-5 Sätze. So kurz wie möglich.`,
+- Struktur: Begrüssung. Hook. Freightos-Nutzen. Offene Frage. CTA. Grussformel. Jeder Teil ein eigener Absatz.
+- Maximal 5 Sätze.`,
     en: `You help Ben, an SDR at Freightos, write cold outbound emails. Ben already has a personal relevance or hook — he provides it in the notes field. Your job is to turn it into a short, direct email.
 
 IMPORTANT: Write the entire email in English. No German words except the sign-off "Vielen Dank und beste Grüsse,".
@@ -309,13 +324,15 @@ Rules:
 - Start with "Hi [Salutation] [Last name],"
 - Use Ben's hook as the opener — don't invent one, don't make it generic
 - Freightos value in one sentence, concrete and direct
+- MANDATORY: include a short open question about their current situation — BEFORE the CTA, not as the CTA
 - CTA: 15-20 min discovery call — one sentence
 - Placeholder: [Calendar link]
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown
 - ABSOLUTE RULE: Never use dashes, hyphens as clause separators, or em-dashes anywhere in the email. Replace every dash with a full stop.
-- Max 4-5 sentences. As short as possible.`
+- Structure: Greeting. Hook. Freightos value. Open question. CTA. Sign-off. Each part is its own paragraph separated by a blank line.
+- Max 5 sentences.`
   },
   closedlost: {
     de: `Du hilfst Ben, einem SDR bei Freightos, Re-Engagement-Emails an Closed-Lost-Deals zu verfassen. Diese Kontakte kennen Freightos bereits.
@@ -350,13 +367,14 @@ Rules:
 - The prospect previously spoke with a Freightos colleague (name provided). Mention this colleague naturally and briefly in the email — e.g. "I know you were in touch with my colleague [Name]" or "You previously connected with [Name] from our team". Use the Close Date period EXACTLY as provided (e.g. "Q4 2024") — never interpret or rephrase.
 - If a rejection reason is known: address it briefly and directly, without sounding defensive
 - Freightos value in one sentence, concrete and relevant to the context
-- Include a genuine open question about the prospect's current situation (e.g. "How are things looking on that front for you now?")
-- CTA: 15-20 min discovery call — one sentence
+- MANDATORY: include a genuine open question about the prospect's current situation — this must come BEFORE the CTA and must NOT be the CTA itself. Example: "How is freight digitalization currently looking on your end?" The question should show real curiosity, not be a lead-in to the call.
+- CTA: only after the open question — propose a 15-20 min discovery call in one sentence
 - Placeholder: [Calendar link]
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown
 - ABSOLUTE RULE: Never use dashes, hyphens as clause separators, or em-dashes anywhere in the email. Replace every dash with a full stop.
+- Structure: Greeting. Reference to previous contact. Brief Freightos value. Open question. CTA. Sign-off. Each of these is its own paragraph separated by a blank line.
 - Max 5-6 sentences.`
   }
 };
@@ -501,7 +519,7 @@ document.getElementById('ob-generate-btn').addEventListener('click', async () =>
     const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: OUTBOUND_SYSTEM[obSubmode][lang], messages: [{ role: 'user', content: prompt }] }) });
     const data = await resp.json();
     const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
-    document.getElementById('ob-result-text').textContent = reply;
+    document.getElementById('ob-result-text').textContent = formatEmail(reply);
     document.querySelector('#outbound-view .form-scroll').style.display = 'none';
     document.querySelector('#outbound-view .form-actions').style.display = 'none';
     document.getElementById('ob-result').classList.remove('hidden');
@@ -560,7 +578,7 @@ document.getElementById('ib-generate-btn').addEventListener('click', async () =>
     const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: INBOUND_SYSTEM[lang], messages: [{ role: 'user', content: prompt }] }) });
     const data = await resp.json();
     const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
-    document.getElementById('ib-result-text').textContent = reply;
+    document.getElementById('ib-result-text').textContent = formatEmail(reply);
     document.getElementById('ib-form-scroll').style.display = 'none';
     document.getElementById('ib-form-actions').style.display = 'none';
     document.getElementById('ib-result').classList.remove('hidden');
