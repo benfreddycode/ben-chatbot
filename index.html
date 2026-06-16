@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_14.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_15.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -255,7 +255,8 @@ Regeln:
 - Platzhalter: [Kalender-Link]
 - Endet immer mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
-- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Keine Fettschrift, kein Markdown
+- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
 - Maximal 5-6 Sätze. Kurz halten.
 - Bei "Bestehender Kunde": persönlicher, kein Freightos-Intro, direkt auf Upgrade-Mehrwert eingehen`,
   en: `You help Ben, an SDR at Freightos, write professional but natural-sounding inbound response emails. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
@@ -273,7 +274,8 @@ Rules:
 - Placeholder: [Calendar link]
 - Always end with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
-- No bold, no markdown, no dashes
+- No bold, no markdown
+- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
 - Max 5-6 sentences. Keep it short.
 - If "Existing client": more personal, skip Freightos intro, focus on upgrade value`
 };
@@ -292,7 +294,8 @@ Regeln:
 - Platzhalter: [Kalender-Link]
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
-- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Keine Fettschrift, kein Markdown
+- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
 - Maximal 4-5 Sätze. So kurz wie möglich.`,
     en: `You help Ben, an SDR at Freightos, write cold outbound emails. Ben already has a personal relevance or hook — he provides it in the notes field. Your job is to turn it into a short, direct email.
 
@@ -306,7 +309,8 @@ Rules:
 - Placeholder: [Calendar link]
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
-- No bold, no markdown, no dashes
+- No bold, no markdown
+- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
 - Max 4-5 sentences. As short as possible.`
   },
   closedlost: {
@@ -326,7 +330,8 @@ Regeln:
 - Platzhalter: [Kalender-Link]
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
-- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Keine Fettschrift, kein Markdown
+- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
 - Maximal 5-6 Sätze.`,
     en: `You help Ben, an SDR at Freightos, write re-engagement emails to closed lost deals. These contacts already know Freightos.
 
@@ -344,7 +349,8 @@ Rules:
 - Placeholder: [Calendar link]
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
-- No bold, no markdown, no dashes
+- No bold, no markdown
+- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
 - Max 5-6 sentences.`
   }
 };
@@ -437,6 +443,7 @@ document.querySelectorAll('#outbound-view .toggle-btn[data-sub]').forEach(btn =>
     btn.classList.add('active');
     obSubmode = btn.dataset.sub;
     const isClosedLost = obSubmode === 'closedlost';
+    document.getElementById('ob-lastcontact-group').classList.toggle('hidden', !isClosedLost);
     document.getElementById('ob-closedate-group').classList.toggle('hidden', !isClosedLost);
     document.getElementById('ob-closereason-group').classList.toggle('hidden', !isClosedLost);
     updateLabels();
