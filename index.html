@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_24.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_25.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -226,6 +226,36 @@ function formatEmail(text) {
   if (!text) return text;
   return text.replace(/\n{3,}/g, '\n\n').trim();
 }
+
+function renderEmail(el, text) {
+  if (!text) return;
+  const cleaned = formatEmail(text);
+  // Split subject line from body
+  const lines = cleaned.split('\n');
+  const subjectLine = lines[0];
+  const body = lines.slice(1).join('\n').trim();
+  el.innerHTML = '';
+  if (subjectLine.startsWith('Betreff:') || subjectLine.startsWith('Subject:')) {
+    const subEl = document.createElement('div');
+    subEl.style.cssText = 'font-size:12px;color:#777;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;font-weight:500;';
+    subEl.textContent = subjectLine.replace(/^(Betreff|Subject):\s*/i, '');
+    const subLabel = document.createElement('div');
+    subLabel.style.cssText = 'font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px;';
+    subLabel.textContent = subjectLine.startsWith('Betreff') ? 'Betreff' : 'Subject';
+    const subBox = document.createElement('div');
+    subBox.style.cssText = 'background:#2a2a2a;border:0.5px solid #3a3a3a;border-radius:8px;padding:10px 14px;margin-bottom:14px;';
+    subBox.appendChild(subLabel);
+    subBox.appendChild(subEl);
+    el.appendChild(subBox);
+    const bodyEl = document.createElement('div');
+    bodyEl.style.whiteSpace = 'pre-wrap';
+    bodyEl.textContent = body;
+    el.appendChild(bodyEl);
+  } else {
+    el.style.whiteSpace = 'pre-wrap';
+    el.textContent = cleaned;
+  }
+}
 let lang = 'en';
 let currentMode = 'research';
 let chatHistory = [];
@@ -250,6 +280,7 @@ const INBOUND_SYSTEM = {
 Tonalität: Professionell aber direkt und menschlich. Klingt wie eine echte Person, nicht wie ein Template. Keine Sales-Floskeln, keine Buzzwords.
 
 Regeln:
+- Beginne die Antwort IMMER mit einer Betreffzeile im Format "Betreff: [Betreff]" — danach eine Leerzeile, dann die Email
 - Beginne immer mit "Hallo, [Anrede] [Nachname],"
 - Zweiter Satz: kurz und spezifisch auf das, was der Prospect getan hat — kein generisches "vielen Dank für Ihr Interesse"
 - Kein "Als [Position] kennen Sie die Herausforderungen..." — das klingt nach Vorlage
@@ -271,6 +302,7 @@ IMPORTANT: Write the entire email in English. No German words except the sign-of
 Tone: Professional but direct and human. Real person, not a template. No clichés, no buzzwords.
 
 Rules:
+- ALWAYS begin your response with a subject line in the format "Subject: [subject]" — then a blank line, then the email
 - Always start with "Hi [Salutation] [Last name],"
 - Second sentence: specific to what the prospect did — no generic "thank you for your interest"
 - No "As a [Position] you know the challenges..." — sounds like a template
@@ -294,6 +326,7 @@ const OUTBOUND_SYSTEM = {
 Freightos ist eine Freight-Technology-Plattform für Spediteure: digitaler Preisvergleich, Angebotsstellung und Buchung von Frachtraten.
 
 Regeln:
+- Beginne die Antwort IMMER mit einer Betreffzeile im Format "Betreff: [Betreff]" — danach eine Leerzeile, dann die Email
 - Beginne mit "Hallo, [Anrede] [Nachname],"
 - Nutze den Hook von Ben als Einstieg — nicht erfinden, nicht generisch machen
 - Freightos-Nutzen in einem Satz, konkret und direkt
@@ -313,6 +346,7 @@ IMPORTANT: Write the entire email in English. No German words except the sign-of
 Freightos is a freight technology platform for forwarders: digital rate comparison, quoting and booking.
 
 Rules:
+- ALWAYS begin your response with a subject line in the format "Subject: [subject]" — then a blank line, then the email
 - Start with "Hi [Salutation] [Last name],"
 - Use Ben's hook as the opener — don't invent one, don't make it generic
 - Freightos value in one sentence, concrete and direct
@@ -511,7 +545,7 @@ document.getElementById('ob-generate-btn').addEventListener('click', async () =>
     const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: OUTBOUND_SYSTEM[obSubmode][lang], messages: [{ role: 'user', content: prompt }] }) });
     const data = await resp.json();
     const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
-    document.getElementById('ob-result-text').textContent = formatEmail(reply);
+    renderEmail(document.getElementById('ob-result-text'), reply);
     document.querySelector('#outbound-view .form-scroll').style.display = 'none';
     document.querySelector('#outbound-view .form-actions').style.display = 'none';
     document.getElementById('ob-result').classList.remove('hidden');
@@ -543,7 +577,7 @@ document.getElementById('ob-reset-btn').addEventListener('click', () => {
 });
 
 document.getElementById('ob-copy-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(document.getElementById('ob-result-text').textContent);
+  navigator.clipboard.writeText(document.getElementById('ob-result-text').innerText);
   const btn = document.getElementById('ob-copy-btn');
   const orig = btn.textContent;
   btn.textContent = '✓ Copied';
@@ -570,7 +604,7 @@ document.getElementById('ib-generate-btn').addEventListener('click', async () =>
     const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: INBOUND_SYSTEM[lang], messages: [{ role: 'user', content: prompt }] }) });
     const data = await resp.json();
     const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
-    document.getElementById('ib-result-text').textContent = formatEmail(reply);
+    renderEmail(document.getElementById('ib-result-text'), reply);
     document.getElementById('ib-form-scroll').style.display = 'none';
     document.getElementById('ib-form-actions').style.display = 'none';
     document.getElementById('ib-result').classList.remove('hidden');
@@ -603,7 +637,7 @@ document.getElementById('ib-reset-btn').addEventListener('click', () => {
 });
 
 document.getElementById('ib-copy-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(document.getElementById('ib-result-text').textContent);
+  navigator.clipboard.writeText(document.getElementById('ib-result-text').innerText);
   const btn = document.getElementById('ib-copy-btn');
   const orig = btn.textContent;
   btn.textContent = '✓ Copied';
