@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_19.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_21.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,8 +117,8 @@ textarea.field-input { resize: none; }
         <input class="field-input" id="ob-company" type="text" placeholder="e.g. Müller Logistics GmbH">
       </div>
       <div class="field-group hidden" id="ob-lastcontact-group">
-        <div class="field-label" id="lbl-ob-lastcontact">Last Contacted By (Freightos)</div>
-        <input class="field-input" id="ob-lastcontact" type="text" placeholder="e.g. Q4 2024, March 2025">
+        <div class="field-label" id="lbl-ob-lastcontact">Last Contact Person (Freightos)</div>
+        <input class="field-input" id="ob-lastcontact" type="text" placeholder="e.g. Oliver Esch">
       </div>
       <div class="field-group hidden" id="ob-closedate-group">
         <div class="field-label" id="lbl-ob-closedate">Close Date (if known)</div>
@@ -326,7 +326,7 @@ Tonalität: Professionell aber locker und direkt. Klingt wie eine echte Person, 
 
 Regeln:
 - Beginne mit "Hallo, [Anrede] [Nachname],"
-- Es gab früher Kontakt zwischen Freightos und diesem Prospect. Erwähne einfach natürlich, dass ihr euch schon kennt oder schon mal in Kontakt waren — ohne Namen von internen Kollegen zu nennen, ohne "wir hatten Kontakt zu Ihnen" Konstruktionen. Verwende den angegebenen Zeitraum EXAKT so wie angegeben (z.B. "Q4 2024"). Beispiel: "Wir hatten uns in Q4 2024 kurz ausgetauscht" — nicht mehr.
+- Der Prospect hatte zuletzt Kontakt mit einem Freightos-Kollegen (Name angegeben). Erwähne diesen Kollegen natürlich und kurz im Email — z.B. "Sie hatten zuletzt Kontakt mit meinem Kollegen [Name]" oder "Ich weiss, dass Sie sich mit [Name] ausgetauscht haben". Verwende den angegebenen Close Date Zeitraum EXAKT so wie angegeben (z.B. "Q4 2024") — nie interpretieren oder umformulieren.
 - Falls ein Ablehnungsgrund bekannt ist: adressiere ihn kurz und direkt, ohne defensiv zu klingen
 - Freightos-Nutzen in einem Satz, konkret und passend zum Kontext
 - Stelle eine echte, offene Frage zur aktuellen Situation des Prospects (z.B. "Wie sieht es bei Ihnen aktuell in dem Bereich aus?")
@@ -347,7 +347,7 @@ Tone: Professional but relaxed and direct. Real person, not a template. Not push
 
 Rules:
 - Start with "Hi [Salutation] [Last name],"
-- There was previous contact between Freightos and this prospect. Reference it naturally and briefly — no internal colleague names, no awkward "we had contact with you" constructions. Use the provided period EXACTLY as given (e.g. "Q4 2024"). Example: "We were briefly in touch in Q4 2024" — keep it that simple.
+- The prospect previously spoke with a Freightos colleague (name provided). Mention this colleague naturally and briefly in the email — e.g. "I know you were in touch with my colleague [Name]" or "You previously connected with [Name] from our team". Use the Close Date period EXACTLY as provided (e.g. "Q4 2024") — never interpret or rephrase.
 - If a rejection reason is known: address it briefly and directly, without sounding defensive
 - Freightos value in one sentence, concrete and relevant to the context
 - Include a genuine open question about the prospect's current situation (e.g. "How are things looking on that front for you now?")
@@ -386,8 +386,8 @@ function updateLabels() {
   document.getElementById('lbl-ob-firstname').textContent = de ? 'Vorname' : 'First Name';
   document.getElementById('lbl-ob-lastname').textContent = de ? 'Nachname (Pflichtfeld)' : 'Last Name (required)';
   document.getElementById('lbl-ob-company').textContent = de ? 'Unternehmen' : 'Company Name';
-  document.getElementById('lbl-ob-lastcontact').textContent = de ? 'Zuletzt kontaktiert von (Freightos)' : 'Last Contacted By (Freightos)';
-  document.getElementById('ob-lastcontact').placeholder = de ? 'z.B. Q4 2024, März 2025' : 'e.g. Q4 2024, March 2025';
+  document.getElementById('lbl-ob-lastcontact').textContent = de ? 'Letzter Ansprechpartner (Freightos)' : 'Last Contact Person (Freightos)';
+  document.getElementById('ob-lastcontact').placeholder = de ? 'z.B. Oliver Esch' : 'e.g. Oliver Esch';
   document.getElementById('lbl-ob-closedate').textContent = de ? 'Datum letzter Kontakt' : 'Close Date (if known)';
   document.getElementById('lbl-ob-closereason').textContent = de ? 'Ablehnungsgrund' : 'Closed Reason (if known)';
   document.getElementById('lbl-ob-notes').textContent = obSubmode === 'cold' ? (de ? 'Hook / Relevanz (Pflichtfeld)' : 'Hook / Relevance (required)') : (de ? 'Zusätzliche Notizen' : 'Additional Notes');
@@ -492,8 +492,8 @@ document.getElementById('ob-generate-btn').addEventListener('click', async () =>
       : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${notes ? 'Hook/Notes: ' + notes : ''}\n\nWrite a cold outbound email. Start with "Hallo, ${obAnrede} ${lastName},"`;
   } else {
     prompt = lang === 'de'
-      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${lastContact ? 'Hintergrundinfo (NUR für Kontext, nicht direkt nennen): Letzter Kontakt durch Freightos in: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Ablehnungsgrund: ' + closeReason : ''}\n${notes ? 'Notizen: ' + notes : ''}\n\nRe-Engagement-Email verfassen. Verwende den Zeitraum EXAKT wie angegeben. Starte mit "Hallo, ${obAnrede} ${lastName},"`
-      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${lastContact ? 'Background info (for context only, do NOT mention the name): Last contacted by Freightos in: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Close reason: ' + closeReason : ''}\n${notes ? 'Notes: ' + notes : ''}\n\nWrite a re-engagement email. Use the time period EXACTLY as provided. Start with "Hallo, ${obAnrede} ${lastName},"`;
+      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${lastContact ? 'Letzter Freightos-Ansprechpartner des Prospects: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Ablehnungsgrund: ' + closeReason : ''}\n${notes ? 'Notizen: ' + notes : ''}\n\nRe-Engagement-Email verfassen. Verwende den Zeitraum EXAKT wie angegeben. Starte mit "Hallo, ${obAnrede} ${lastName},"`
+      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${lastContact ? 'Last Freightos contact person the prospect spoke with: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Close reason: ' + closeReason : ''}\n${notes ? 'Notes: ' + notes : ''}\n\nWrite a re-engagement email. Use the time period EXACTLY as provided. Start with "Hallo, ${obAnrede} ${lastName},"`;
   }
   const btn = document.getElementById('ob-generate-btn');
   btn.disabled = true; btn.textContent = lang === 'de' ? 'Generiert...' : 'Generating...';
