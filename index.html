@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_15.html -->
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_16.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -256,7 +256,7 @@ Regeln:
 - Endet immer mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown
-- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
+- ABSOLUTE PFLICHT: Niemals Gedankenstriche, Bindestriche zur Satztrennung oder em-dashes verwenden. Jeden Gedankenstrich durch einen Punkt ersetzen.
 - Maximal 5-6 Sätze. Kurz halten.
 - Bei "Bestehender Kunde": persönlicher, kein Freightos-Intro, direkt auf Upgrade-Mehrwert eingehen`,
   en: `You help Ben, an SDR at Freightos, write professional but natural-sounding inbound response emails. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
@@ -275,7 +275,7 @@ Rules:
 - Always end with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown
-- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
+- ABSOLUTE RULE: Never use dashes, hyphens as clause separators, or em-dashes anywhere in the email. Replace every dash with a full stop.
 - Max 5-6 sentences. Keep it short.
 - If "Existing client": more personal, skip Freightos intro, focus on upgrade value`
 };
@@ -295,7 +295,7 @@ Regeln:
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown
-- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
+- ABSOLUTE PFLICHT: Niemals Gedankenstriche, Bindestriche zur Satztrennung oder em-dashes verwenden. Jeden Gedankenstrich durch einen Punkt ersetzen.
 - Maximal 4-5 Sätze. So kurz wie möglich.`,
     en: `You help Ben, an SDR at Freightos, write cold outbound emails. Ben already has a personal relevance or hook — he provides it in the notes field. Your job is to turn it into a short, direct email.
 
@@ -310,7 +310,7 @@ Rules:
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown
-- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
+- ABSOLUTE RULE: Never use dashes, hyphens as clause separators, or em-dashes anywhere in the email. Replace every dash with a full stop.
 - Max 4-5 sentences. As short as possible.`
   },
   closedlost: {
@@ -331,7 +331,7 @@ Regeln:
 - Endet mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
 - Keine Fettschrift, kein Markdown
-- NIEMALS Gedankenstriche oder em-dashes im Email-Text verwenden. Immer Punkte stattdessen.
+- ABSOLUTE PFLICHT: Niemals Gedankenstriche, Bindestriche zur Satztrennung oder em-dashes verwenden. Jeden Gedankenstrich durch einen Punkt ersetzen.
 - Maximal 5-6 Sätze.`,
     en: `You help Ben, an SDR at Freightos, write re-engagement emails to closed lost deals. These contacts already know Freightos.
 
@@ -350,7 +350,7 @@ Rules:
 - End with: "Vielen Dank und beste Grüsse,"
 - No name or company after sign-off
 - No bold, no markdown
-- NEVER use dashes or em-dashes in the email text. Always use full stops instead.
+- ABSOLUTE RULE: Never use dashes, hyphens as clause separators, or em-dashes anywhere in the email. Replace every dash with a full stop.
 - Max 5-6 sentences.`
   }
 };
@@ -475,6 +475,7 @@ document.getElementById('ob-generate-btn').addEventListener('click', async () =>
   const firstName = document.getElementById('ob-firstname').value.trim();
   const company = document.getElementById('ob-company').value.trim();
   const notes = document.getElementById('ob-notes').value.trim();
+  const lastContact = document.getElementById('ob-lastcontact').value.trim();
   const closeDate = document.getElementById('ob-closedate').value.trim();
   const closeReason = document.getElementById('ob-closereason').value.trim();
   const fullName = `${obAnrede} ${firstName ? firstName + ' ' : ''}${lastName}`;
@@ -485,8 +486,8 @@ document.getElementById('ob-generate-btn').addEventListener('click', async () =>
       : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${notes ? 'Hook/Notes: ' + notes : ''}\n\nWrite a cold outbound email. Start with "Hallo, ${obAnrede} ${lastName},"`;
   } else {
     prompt = lang === 'de'
-      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${closeDate ? 'Datum letzter Kontakt: ' + closeDate : ''}\n${closeReason ? 'Ablehnungsgrund: ' + closeReason : ''}\n${notes ? 'Notizen: ' + notes : ''}\n\nRe-Engagement-Email verfassen. Starte mit "Hallo, ${obAnrede} ${lastName},"`
-      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${closeDate ? 'Last contact date: ' + closeDate : ''}\n${closeReason ? 'Close reason: ' + closeReason : ''}\n${notes ? 'Notes: ' + notes : ''}\n\nWrite a re-engagement email. Start with "Hallo, ${obAnrede} ${lastName},"`;
+      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${lastContact ? 'Letzter Kontakt in: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Ablehnungsgrund: ' + closeReason : ''}\n${notes ? 'Notizen: ' + notes : ''}\n\nRe-Engagement-Email verfassen. Verwende den Zeitraum EXAKT wie angegeben. Starte mit "Hallo, ${obAnrede} ${lastName},"`
+      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${lastContact ? 'Last contact in: ' + lastContact : ''}\n${closeDate ? 'Close Date: ' + closeDate : ''}\n${closeReason ? 'Close reason: ' + closeReason : ''}\n${notes ? 'Notes: ' + notes : ''}\n\nWrite a re-engagement email. Use the time period EXACTLY as provided. Start with "Hallo, ${obAnrede} ${lastName},"`;
   }
   const btn = document.getElementById('ob-generate-btn');
   btn.disabled = true; btn.textContent = lang === 'de' ? 'Generiert...' : 'Generating...';
