@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_12.html -->
-<html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0061)file:///C:/Users/bechir.benfredj_frei/Downloads/index_13.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ben's Sales Assistant</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, sans-serif; background: #0d0d0d; display: flex; justify-content: center; padding: 24px 16px; min-height: 100vh; }
-  #app { width: 100%; max-width: 720px; display: flex; flex-direction: column; height: calc(100vh - 48px); background: #1a1a1a; border-radius: 12px; border: 0.5px solid #333; overflow: hidden; }
-  #header { padding: 14px 20px 0; border-bottom: 0.5px solid #2e2e2e; }
-  #header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  h1 { font-size: 14px; font-weight: 500; color: #ccc; }
-  #lang-toggle { display: flex; gap: 4px; }
-  .lang-btn { padding: 4px 10px; border-radius: 20px; border: 0.5px solid #444; background: #1a1a1a; color: #666; cursor: pointer; font-size: 12px; }
-  .lang-btn.active { background: #2e2e2e; color: #eee; border-color: #666; }
-  #mode-bar { display: flex; gap: 6px; padding-bottom: 12px; flex-wrap: wrap; }
-  .mode-btn { padding: 6px 13px; border-radius: 20px; border: 0.5px solid #333; background: #1a1a1a; color: #666; cursor: pointer; font-size: 13px; transition: all 0.15s; }
-  .mode-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
-  #mode-hint { font-size: 11px; color: #555; padding: 5px 20px 6px; background: #161616; }
-  #chat-view { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-  #messages { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
-  .msg { max-width: 82%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
-  .msg.user { align-self: flex-end; background: #2a2a2a; border: 0.5px solid #3a3a3a; color: #ddd; }
-  .msg.assistant { align-self: flex-start; background: #222; border: 0.5px solid #333; color: #ddd; }
-  .msg.loading { color: #555; font-style: italic; }
-  #input-area { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; align-items: flex-end; }
-  #user-input { flex: 1; resize: none; min-height: 40px; max-height: 120px; padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; outline: none; background: #111; color: #ddd; }
-  #user-input:focus { border-color: #555; }
-  #user-input::placeholder { color: #444; }
-  #send-btn { padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; height: 40px; background: #eee; color: #111; border: none; font-weight: 500; }
-  #send-btn:disabled { background: #333; color: #666; cursor: default; }
-  #inbound-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
-  #inbound-form { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-  .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-label { font-size: 12px; color: #777; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-  .field-input { padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; background: #111; color: #ddd; outline: none; width: 100%; }
-  .field-input:focus { border-color: #555; }
-  .field-input::placeholder { color: #444; }
-  select.field-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-  select.field-input option { background: #1a1a1a; color: #ddd; }
-  textarea.field-input { resize: none; min-height: 70px; }
-  #inbound-actions { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; }
-  #generate-btn { flex: 1; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; background: #eee; color: #111; border: none; font-weight: 500; }
-  #generate-btn:disabled { background: #333; color: #666; cursor: default; }
-  #clear-form-btn { padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; background: transparent; color: #555; border: 0.5px solid #333; }
-  #inbound-result { display: none; flex-direction: column; flex: 1; overflow: hidden; }
-  #result-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 0.5px solid #2e2e2e; }
-  #result-label { font-size: 12px; color: #777; }
-  #back-btn { font-size: 13px; color: #888; background: transparent; border: 0.5px solid #333; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
-  #result-text { flex: 1; overflow-y: auto; padding: 20px; font-size: 14px; line-height: 1.7; color: #ddd; white-space: pre-wrap; }
-  #copy-btn { margin: 0 20px 16px; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; background: #2a2a2a; color: #ccc; border: 0.5px solid #333; }
-  #copy-btn:hover { background: #333; }
-  .anrede-toggle { display: flex; gap: 6px; }
-  .anrede-btn { flex: 1; padding: 8px; border-radius: 8px; border: 0.5px solid #333; background: #111; color: #666; cursor: pointer; font-size: 14px; text-align: center; }
-  .anrede-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
-  .checkbox-group { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 0.5px solid #333; background: #111; cursor: pointer; }
-  .checkbox-group input { width: 16px; height: 16px; cursor: pointer; accent-color: #aaa; }
-  .checkbox-group label, .checkbox-group span { font-size: 14px; color: #aaa; cursor: pointer; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0d0d0d; display: flex; justify-content: center; padding: 24px 16px; min-height: 100vh; }
+#app { width: 100%; max-width: 720px; display: flex; flex-direction: column; height: calc(100vh - 48px); background: #1a1a1a; border-radius: 12px; border: 0.5px solid #333; overflow: hidden; }
+#header { padding: 14px 20px 0; border-bottom: 0.5px solid #2e2e2e; }
+#header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+h1 { font-size: 14px; font-weight: 500; color: #ccc; }
+#lang-toggle { display: flex; gap: 4px; }
+.lang-btn { padding: 4px 10px; border-radius: 20px; border: 0.5px solid #444; background: #1a1a1a; color: #666; cursor: pointer; font-size: 12px; }
+.lang-btn.active { background: #2e2e2e; color: #eee; border-color: #666; }
+#mode-bar { display: flex; gap: 6px; padding-bottom: 12px; flex-wrap: wrap; }
+.mode-btn { padding: 6px 13px; border-radius: 20px; border: 0.5px solid #333; background: #1a1a1a; color: #666; cursor: pointer; font-size: 13px; }
+.mode-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
+#mode-hint { font-size: 11px; color: #555; padding: 5px 20px 6px; background: #161616; }
+.view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+.view.active { display: flex; }
+#messages { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+.msg { max-width: 82%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+.msg.user { align-self: flex-end; background: #2a2a2a; border: 0.5px solid #3a3a3a; color: #ddd; }
+.msg.assistant { align-self: flex-start; background: #222; border: 0.5px solid #333; color: #ddd; }
+.msg.loading { color: #555; font-style: italic; }
+#input-area { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; align-items: flex-end; }
+#user-input { flex: 1; resize: none; min-height: 40px; max-height: 120px; padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; outline: none; background: #111; color: #ddd; }
+#user-input::placeholder { color: #444; }
+#send-btn { padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; height: 40px; background: #eee; color: #111; border: none; font-weight: 500; }
+#send-btn:disabled { background: #333; color: #666; cursor: default; }
+.form-scroll { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12px; color: #777; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.field-input { padding: 9px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; border: 0.5px solid #333; background: #111; color: #ddd; outline: none; width: 100%; }
+.field-input:focus { border-color: #555; }
+.field-input::placeholder { color: #444; }
+select.field-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+select.field-input option { background: #1a1a1a; color: #ddd; }
+textarea.field-input { resize: none; }
+.toggle-row { display: flex; gap: 6px; }
+.toggle-btn { flex: 1; padding: 8px; border-radius: 8px; border: 0.5px solid #333; background: #111; color: #666; cursor: pointer; font-size: 14px; text-align: center; }
+.toggle-btn.active { background: #2e2e2e; color: #eee; border-color: #555; font-weight: 500; }
+.check-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 0.5px solid #333; background: #111; cursor: pointer; margin-bottom: 6px; }
+.check-row input { width: 16px; height: 16px; accent-color: #aaa; cursor: pointer; }
+.check-row span { font-size: 14px; color: #aaa; }
+.form-actions { display: flex; gap: 8px; padding: 12px 20px; border-top: 0.5px solid #2e2e2e; }
+.generate-btn { flex: 1; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; background: #eee; color: #111; border: none; font-weight: 500; }
+.generate-btn:disabled { background: #333; color: #666; cursor: default; }
+.reset-btn { padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; background: transparent; color: #555; border: 0.5px solid #333; }
+.result-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 0.5px solid #2e2e2e; }
+.result-label { font-size: 12px; color: #777; }
+.back-btn { font-size: 13px; color: #888; background: transparent; border: 0.5px solid #333; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
+.result-text { flex: 1; overflow-y: auto; padding: 20px; font-size: 14px; line-height: 1.7; color: #ddd; white-space: pre-wrap; }
+.copy-btn { margin: 0 20px 16px; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; background: #2a2a2a; color: #ccc; border: 0.5px solid #333; }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -70,15 +68,16 @@
       </div>
     </div>
     <div id="mode-bar">
-      <button class="mode-btn active" data-mode="research">🔍 Research</button>
-      <button class="mode-btn" data-mode="outreach">✉️ Outreach</button>
-      <button class="mode-btn" data-mode="inbound">📥 Inbound</button>
-      <button class="mode-btn" data-mode="internal">👥 Internal</button>
+      <button class="mode-btn" data-mode="research">Research</button>
+      <button class="mode-btn active" data-mode="outbound">Outbound</button>
+      <button class="mode-btn" data-mode="inbound">Inbound</button>
+      <button class="mode-btn" data-mode="internal">Internal</button>
     </div>
   </div>
-  <div id="mode-hint">Research — EN</div>
+  <div id="mode-hint">Outbound — EN</div>
 
-  <div id="chat-view">
+  <!-- CHAT VIEW (Research + Internal) -->
+  <div id="chat-view" class="view">
     <div id="messages">
       <div class="msg assistant">Hi Ben — pick a mode and get started.</div>
     </div>
@@ -88,306 +87,501 @@
     </div>
   </div>
 
-  <div id="inbound-view">
-    <div id="inbound-form">
+  <!-- OUTBOUND FORM -->
+  <div id="outbound-view" class="view active">
+    <div class="form-scroll">
       <div class="field-group">
-        <label class="field-label" id="lbl-anrede">Salutation</label>
-        <div class="anrede-toggle">
-          <button class="anrede-btn active" data-anrede="Herr" id="btn-herr">Herr</button>
-          <button class="anrede-btn" data-anrede="Frau" id="btn-frau">Frau</button>
+        <div class="field-label" id="lbl-ob-type">Type</div>
+        <div class="toggle-row">
+          <button class="toggle-btn active" data-sub="cold">Cold</button>
+          <button class="toggle-btn" data-sub="closedlost">Closed Lost</button>
         </div>
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-name">Prospect Name</label>
-        <input class="field-input" id="f-name" type="text" placeholder="e.g. Thomas Müller">
+        <div class="field-label" id="lbl-ob-anrede">Salutation</div>
+        <div class="toggle-row" id="ob-anrede-toggle">
+          <button class="toggle-btn active" data-anrede="Herr">Herr</button>
+          <button class="toggle-btn" data-anrede="Frau">Frau</button>
+        </div>
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-company">Company Name</label>
-        <input class="field-input" id="f-company" type="text" placeholder="e.g. Müller Logistics GmbH">
+        <div class="field-label" id="lbl-ob-firstname">First Name</div>
+        <input class="field-input" id="ob-firstname" type="text" placeholder="e.g. Thomas">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-position">Position</label>
-        <input class="field-input" id="f-position" type="text" placeholder="e.g. Head of Logistics">
+        <div class="field-label" id="lbl-ob-lastname">Last Name (required)</div>
+        <input class="field-input" id="ob-lastname" type="text" placeholder="e.g. Müller">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-product">Interested Product / Feature</label>
-        <input class="field-input" id="f-product" type="text" placeholder="z.B. Rate Management, Booking Portal">
+        <div class="field-label" id="lbl-ob-company">Company Name</div>
+        <input class="field-input" id="ob-company" type="text" placeholder="e.g. Müller Logistics GmbH">
+      </div>
+      <div class="field-group hidden" id="ob-closedate-group">
+        <div class="field-label" id="lbl-ob-closedate">Close Date (if known)</div>
+        <input class="field-input" id="ob-closedate" type="text" placeholder="e.g. Q3 2024">
+      </div>
+      <div class="field-group hidden" id="ob-closereason-group">
+        <div class="field-label" id="lbl-ob-closereason">Closed Reason (if known)</div>
+        <input class="field-input" id="ob-closereason" type="text" placeholder="e.g. Pricing, wrong timing...">
       </div>
       <div class="field-group">
-        <label class="field-label" id="lbl-leadtype">Lead Type</label>
-        <select class="field-input" id="f-leadtype">
-          <option value="" id="opt-placeholder">— Select Lead Type —</option>
-          <option value="Demo Request">Demo Request</option>
-          <option value="Target Account">Target Account</option>
-          <option value="Terminal Pricing Page View">Terminal Pricing Page View</option>
-          <option value="Terminal Logins 4x/month+">Terminal Logins 4x/month+</option>
-          <option value="Terminal in-app upgrade intent">Terminal in-app upgrade intent</option>
-          <option value="Attended Enterprise Product Tour">Attended Enterprise Product Tour</option>
-          <option value="Terminal ROI Calculator">Terminal ROI Calculator</option>
-          <option value="Account Signup">Account Signup</option>
-          <option value="Upgrade Pack">Upgrade Pack</option>
-          <option value="Content Download">Content Download</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <label class="checkbox-group" for="f-unknown">
-          <input type="checkbox" id="f-unknown">
-          <span id="lbl-unknown">Intent unknown</span>
-        </label>
-        <label class="checkbox-group" for="f-existing" style="margin-top: 6px;">
-          <input type="checkbox" id="f-existing">
-          <span id="lbl-existing">Existing client</span>
-        </label>
-      </div>
-      <div class="field-group">
-        <label class="field-label" id="lbl-notes">Additional Notes</label>
-        <textarea class="field-input" id="f-notes" style="min-height: 100px;" placeholder="e.g. lead&#39;s original message, special requirements, context..."></textarea>
+        <div class="field-label" id="lbl-ob-notes">Hook / Relevance (required)</div>
+        <textarea class="field-input" id="ob-notes" style="min-height:90px" placeholder="e.g. Saw you&#39;re expanding into new markets..."></textarea>
       </div>
     </div>
-    <div id="inbound-actions">
-      <button id="clear-form-btn">Reset</button>
-      <button id="generate-btn">Generate ✦</button>
+    <div class="form-actions">
+      <button class="reset-btn" id="ob-reset-btn">Reset</button>
+      <button class="generate-btn" id="ob-generate-btn">Generate ✦</button>
+    </div>
+    <div id="ob-result" class="hidden" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="result-header">
+        <span class="result-label" id="lbl-ob-result">Generated email</span>
+        <button class="back-btn" id="ob-back-btn">← Edit fields</button>
+      </div>
+      <div class="result-text" id="ob-result-text"></div>
+      <button class="copy-btn" id="ob-copy-btn">Copy to clipboard</button>
     </div>
   </div>
 
-  <div id="inbound-result">
-    <div id="result-header">
-      <span id="result-label">Generated response</span>
-      <button id="back-btn">← Edit fields</button>
+  <!-- INBOUND FORM -->
+  <div id="inbound-view" class="view">
+    <div class="form-scroll" id="ib-form-scroll">
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-anrede">Salutation</div>
+        <div class="toggle-row" id="ib-anrede-toggle">
+          <button class="toggle-btn active" data-anrede="Herr">Herr</button>
+          <button class="toggle-btn" data-anrede="Frau">Frau</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-name">Prospect Name</div>
+        <input class="field-input" id="ib-name" type="text" placeholder="e.g. Müller">
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-company">Company Name</div>
+        <input class="field-input" id="ib-company" type="text" placeholder="e.g. Müller Logistics GmbH">
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-position">Position</div>
+        <input class="field-input" id="ib-position" type="text" placeholder="e.g. Head of Logistics">
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-product">Interested Product / Feature</div>
+        <input class="field-input" id="ib-product" type="text" placeholder="e.g. Rate Management">
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-leadtype">Lead Type</div>
+        <select class="field-input" id="ib-leadtype">
+          <option value="">— Select Lead Type —</option>
+          <option>Demo Request</option>
+          <option>Target Account</option>
+          <option>Terminal Pricing Page View</option>
+          <option>Terminal Logins 4x/month+</option>
+          <option>Terminal in-app upgrade intent</option>
+          <option>Attended Enterprise Product Tour</option>
+          <option>Terminal ROI Calculator</option>
+          <option>Account Signup</option>
+          <option>Upgrade Pack</option>
+          <option>Content Download</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="check-row" for="ib-unknown">
+          <input type="checkbox" id="ib-unknown">
+          <span id="lbl-ib-unknown">Intent unknown</span>
+        </label>
+        <label class="check-row" for="ib-existing">
+          <input type="checkbox" id="ib-existing">
+          <span id="lbl-ib-existing">Existing client</span>
+        </label>
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="lbl-ib-notes">Additional Notes</div>
+        <textarea class="field-input" id="ib-notes" style="min-height:90px" placeholder="e.g. lead&#39;s original message..."></textarea>
+      </div>
     </div>
-    <div id="result-text"></div>
-    <button id="copy-btn">Copy to clipboard</button>
+    <div class="form-actions" id="ib-form-actions">
+      <button class="reset-btn" id="ib-reset-btn">Reset</button>
+      <button class="generate-btn" id="ib-generate-btn">Generate ✦</button>
+    </div>
+    <div id="ib-result" class="hidden" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="result-header">
+        <span class="result-label" id="lbl-ib-result">Generated email</span>
+        <button class="back-btn" id="ib-back-btn">← Edit fields</button>
+      </div>
+      <div class="result-text" id="ib-result-text"></div>
+      <button class="copy-btn" id="ib-copy-btn">Copy to clipboard</button>
+    </div>
   </div>
 </div>
 
 <script>
 const BACKEND_URL = 'https://ben-chatbot-backend.onrender.com/chat';
-
-let currentLang = 'en';
+let lang = 'en';
 let currentMode = 'research';
-let history = [];
+let chatHistory = [];
+let obAnrede = 'Herr';
+let ibAnrede = 'Herr';
+let obSubmode = 'cold';
 
-const MODES = {
+const CHAT_SYSTEMS = {
   research: {
-    de: { hint: 'Research — EN', system: `Du bist ein präziser Research-Assistent für Ben, einen SaaS Sales-Profi in Barcelona mit Fokus auf den DACH-Markt. Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.` },
-    en: { hint: 'Research — EN', system: `You are a sharp research assistant for Ben, a SaaS sales professional based in Barcelona focused on the DACH market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.` }
-  },
-  outreach: {
-    de: { hint: 'Outreach Email — DE', system: `Du hilfst Ben, einem SaaS Sales-Profi mit Fokus auf den DACH-Markt, professionelle Outreach-Emails zu verfassen. Ben ist Muttersprachler Deutsch, basiert in Barcelona. Ton: professionell aber nahbar. Siez-Form. Direkt und werteorientiert, keine generischen Einstiege. Fehlenden Kontext aktiv erfragen. Bei Bedarf 1-2 Varianten anbieten. Knackig halten.` },
-    en: { hint: 'Outreach Email — EN', system: `You help Ben, a SaaS sales professional targeting the DACH market, draft outreach emails. Tone: professional but approachable. Direct and value-focused, no generic openers. Ask for missing context if needed. Offer 1-2 variants when appropriate. Keep emails concise.` }
+    de: `Du bist ein präziser Research-Assistent für Ben, einen SaaS Sales-Profi in Barcelona mit Fokus auf den DACH-Markt. Fasse Informationen knapp zusammen, nutze Aufzählungspunkte und hebe hervor, was im B2B-Vertriebskontext relevant ist. Veraltete Infos kennzeichnen. Kein Fülltext. Ben schätzt direkte, ehrliche Einschätzungen.`,
+    en: `You are a sharp research assistant for Ben, a SaaS sales professional based in Barcelona focused on the DACH market. Summarize concisely, use bullet points, highlight what is most relevant for a B2B sales context. Flag outdated info. No filler. Ben prefers direct, honest takes.`
   },
   internal: {
-    de: { hint: 'Internal Email — DE', system: `Du hilfst Ben, interne Emails an Kollegen, Manager und Ops-Teams zu verfassen. Struktur: Kontext, Anfrage oder Update, nächste Schritte. Ton: direkt und professionell, nicht förmlich steif. Kein Fülltext. Wenn Slack sinnvoller wäre, kurz darauf hinweisen.` },
-    en: { hint: 'Internal Email — EN', system: `You help Ben draft internal emails to colleagues, managers and ops teams. Structure: context, ask or update, next steps. Tone: direct and professional, not stiff. No padding. Flag if Slack would be more appropriate.` }
+    de: `Du hilfst Ben, interne Emails an Kollegen, Manager und Ops-Teams zu verfassen. Struktur: Kontext, Anfrage oder Update, nächste Schritte. Ton: direkt und professionell, nicht förmlich steif. Kein Fülltext. Wenn Slack sinnvoller wäre, kurz darauf hinweisen.`,
+    en: `You help Ben draft internal emails to colleagues, managers and ops teams. Structure: context, ask or update, next steps. Tone: direct and professional, not stiff. No padding. Flag if Slack would be more appropriate.`
   }
 };
 
 const INBOUND_SYSTEM = {
-  de: `Du hilfst Ben, einem Sales-Profi bei Freightos, professionelle aber natürlich klingende Antwort-Emails auf eingehende Leads zu schreiben. Freightos ist eine Freight-Technology-Plattform, die Spediteuren hilft, Frachtpreise digital zu vergleichen, anzubieten und zu buchen.
+  de: `Du hilfst Ben, einem SDR bei Freightos, professionelle aber natürlich klingende Antwort-Emails auf eingehende Leads zu schreiben. Freightos ist eine Freight-Technology-Plattform, die Spediteuren hilft, Frachtpreise digital zu vergleichen, anzubieten und zu buchen.
 
-Tonalität: Professionell aber direkt und menschlich. Klingt wie eine echte Person, nicht wie ein Template. Keine Sales-Floskeln, keine Buzzwords, keine aufgeblasenen Formulierungen.
+Tonalität: Professionell aber direkt und menschlich. Klingt wie eine echte Person, nicht wie ein Template. Keine Sales-Floskeln, keine Buzzwords.
 
-Konkrete Regeln:
+Regeln:
 - Beginne immer mit "Hallo, [Anrede] [Nachname],"
-- Zweiter Satz: kurz und spezifisch auf das ansprechen, was der Prospect getan hat (z.B. Demo angefragt, Pricing-Seite besucht, Content heruntergeladen) — kein generisches "vielen Dank für Ihr Interesse"
+- Zweiter Satz: kurz und spezifisch auf das, was der Prospect getan hat — kein generisches "vielen Dank für Ihr Interesse"
 - Kein "Als [Position] kennen Sie die Herausforderungen..." — das klingt nach Vorlage
 - Freightos-Nutzen konkret und knapp in 1-2 Sätzen nennen, passend zum Lead-Typ
 - Ben ist SDR. Er führt Discovery Calls von 15-20 Minuten. Er macht keine Demos.
-- Call-to-Action: einen 15-20 minütigen Discovery Call mit Ben vorschlagen — ein Satz, direkt
-- Falls eine Demo relevant ist: erwähne, dass Ben den Prospect danach an den richtigen Ansprechpartner im Team weiterleitet. Nenne diese Person nicht "Sales Executive" — verwende stattdessen "Kollege" oder "unser Produktspezialist"
-- Platzhalter für Kalender-Link: [Kalender-Link]
+- Call-to-Action: 15-20 minütigen Discovery Call vorschlagen — ein Satz, direkt
+- Falls Demo relevant: Ben leitet danach an "Kollege" oder "Produktspezialist" weiter — nie "Sales Executive"
+- Platzhalter: [Kalender-Link]
 - Endet immer mit: "Vielen Dank und beste Grüsse,"
 - Kein Name, keine Firma nach der Grussformel
-- Keine Fettschrift, kein Markdown
-- Keine Gedankenstriche oder Bindestriche zur Satztrennung. Punkte stattdessen verwenden.
-- Maximal 5-6 Sätze gesamt. Kurz halten.
-- Wenn Kundentyp 'Bestehender Kunde': Ton noch persönlicher, kein Intro über Freightos nötig, direkt auf den Mehrwert des Upgrades oder Features eingehen und auf die bestehende Beziehung Bezug nehmen.`,
+- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Maximal 5-6 Sätze. Kurz halten.
+- Bei "Bestehender Kunde": persönlicher, kein Freightos-Intro, direkt auf Upgrade-Mehrwert eingehen`,
+  en: `You help Ben, an SDR at Freightos, write professional but natural-sounding inbound response emails. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
 
-  en: `You help Ben, a sales professional at Freightos, write professional but natural-sounding response emails to inbound leads. Freightos is a freight technology platform that helps freight forwarders digitally compare, quote and book freight rates.
-
-Tone: Professional but direct and human. Sounds like a real person, not a template. No sales clichés, no buzzwords.
+Tone: Professional but direct and human. Real person, not a template. No clichés, no buzzwords.
 
 Rules:
 - Always start with "Hallo, [Salutation] [Last name],"
-- Second sentence: short and specific to what the prospect did — no generic "thank you for your interest"
+- Second sentence: specific to what the prospect did — no generic "thank you for your interest"
 - No "As a [Position] you know the challenges..." — sounds like a template
-- Mention Freightos value concisely in 1-2 sentences, matched to the lead type
-- Ben is an SDR (Sales Development Representative). He runs 15-20 minute discovery calls. He does not do demos.
-- Call to action: propose a 15-20 minute discovery call with Ben — one sentence, direct
-- If a demo is relevant: mention that Ben will connect them with the right person on the team after the call. Do not call that person "Sales Executive" — use "colleague" or "product specialist" instead
-- Placeholder for calendar link: [Calendar link]
+- Mention Freightos value in 1-2 sentences matched to lead type
+- Ben is an SDR. He runs 15-20 min discovery calls. He does not do demos.
+- CTA: propose a 15-20 min discovery call — one sentence, direct
+- If demo relevant: Ben connects them with a "colleague" or "product specialist" — never "Sales Executive"
+- Placeholder: [Calendar link]
 - Always end with: "Vielen Dank und beste Grüsse,"
-- No name or company after the sign-off
-- No bold text, no markdown
-- Never use dashes or em dashes to connect or separate clauses. Use full stops instead.
-- Maximum 5-6 sentences total. Keep it short.
-- If client type is 'Existing client': make the tone more personal, skip the Freightos intro, reference the existing relationship and focus directly on the upgrade or feature value.`
+- No name or company after sign-off
+- No bold, no markdown, no dashes
+- Max 5-6 sentences. Keep it short.
+- If "Existing client": more personal, skip Freightos intro, focus on upgrade value`
 };
 
-const FIELD_LABELS = {
-  de: { anrede: 'Anrede', name: 'Prospect Name', unknown: 'Interesse/Bedarf unbekannt', existing: 'Bestehender Kunde', company: 'Unternehmen', position: 'Position', product: 'Interessiertes Produkt / Feature', leadtype: 'Lead Typ', notes: 'Zusätzliche Notizen', generate: 'Generieren ✦', result: 'Generierte Antwort', copy: 'In Zwischenablage kopieren', back: '← Felder bearbeiten', opt_placeholder: '— Lead Typ wählen —', placeholder_name: 'z.B. Thomas Müller', placeholder_company: 'z.B. Müller Logistics GmbH', placeholder_position: 'z.B. Head of Logistics', placeholder_product: 'z.B. Rate Management, Booking Portal', placeholder_notes: 'z.B. Originalnachricht des Leads, besondere Anforderungen, Kontext...' },
-  en: { anrede: 'Salutation', name: 'Prospect Name', unknown: 'Intent unknown', existing: 'Existing client', company: 'Company Name', position: 'Position', product: 'Interested Product / Feature', leadtype: 'Lead Type', notes: 'Additional Notes', generate: 'Generate ✦', result: 'Generated response', copy: 'Copy to clipboard', back: '← Edit fields', opt_placeholder: '— Select Lead Type —', placeholder_name: 'e.g. Thomas Müller', placeholder_company: 'e.g. Müller Logistics GmbH', placeholder_position: 'e.g. Head of Logistics', placeholder_product: 'e.g. Rate Management, Booking Portal', placeholder_notes: 'e.g. lead\'s original message, special requirements, context...' }
+const OUTBOUND_SYSTEM = {
+  cold: {
+    de: `Du hilfst Ben, einem SDR bei Freightos, Cold-Outbound-Emails zu verfassen. Ben hat bereits eine persönliche Relevanz oder einen Hook — er gibt dir diesen im Notizfeld an. Deine Aufgabe ist es, daraus eine kurze, direkte Email zu machen.
+
+Freightos ist eine Freight-Technology-Plattform für Spediteure: digitaler Preisvergleich, Angebotsstellung und Buchung von Frachtraten.
+
+Regeln:
+- Beginne mit "Hallo, [Anrede] [Nachname],"
+- Nutze den Hook von Ben als Einstieg — nicht erfinden, nicht generisch machen
+- Freightos-Nutzen in einem Satz, konkret und direkt
+- CTA: 15-20 minütiger Discovery Call — ein Satz
+- Platzhalter: [Kalender-Link]
+- Endet mit: "Vielen Dank und beste Grüsse,"
+- Kein Name, keine Firma nach der Grussformel
+- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Maximal 4-5 Sätze. So kurz wie möglich.`,
+    en: `You help Ben, an SDR at Freightos, write cold outbound emails. Ben already has a personal relevance or hook — he provides it in the notes field. Your job is to turn it into a short, direct email.
+
+Freightos is a freight technology platform for forwarders: digital rate comparison, quoting and booking.
+
+Rules:
+- Start with "Hallo, [Salutation] [Last name],"
+- Use Ben's hook as the opener — don't invent one, don't make it generic
+- Freightos value in one sentence, concrete and direct
+- CTA: 15-20 min discovery call — one sentence
+- Placeholder: [Calendar link]
+- End with: "Vielen Dank und beste Grüsse,"
+- No name or company after sign-off
+- No bold, no markdown, no dashes
+- Max 4-5 sentences. As short as possible.`
+  },
+  closedlost: {
+    de: `Du hilfst Ben, einem SDR bei Freightos, Re-Engagement-Emails an Closed-Lost-Deals zu verfassen. Diese Kontakte kennen Freightos bereits.
+
+Freightos ist eine Freight-Technology-Plattform: digitaler Preisvergleich, Angebotsstellung und Buchung von Frachtraten.
+
+Regeln:
+- Beginne mit "Hallo, [Anrede] [Nachname],"
+- Beziehe dich kurz auf den früheren Kontakt — nicht aufdringlich, sondern natürlich
+- Falls ein Ablehnungsgrund bekannt ist: adressiere ihn kurz und direkt
+- Freightos-Nutzen in einem Satz, konkret
+- CTA: 15-20 minütiger Discovery Call
+- Platzhalter: [Kalender-Link]
+- Endet mit: "Vielen Dank und beste Grüsse,"
+- Kein Name, keine Firma nach der Grussformel
+- Keine Fettschrift, kein Markdown, keine Gedankenstriche
+- Maximal 5 Sätze. Kurz und direkt.`,
+    en: `You help Ben, an SDR at Freightos, write re-engagement emails to closed lost deals. These contacts already know Freightos.
+
+Freightos is a freight technology platform: digital rate comparison, quoting and booking.
+
+Rules:
+- Start with "Hallo, [Salutation] [Last name],"
+- Briefly reference the previous contact — naturally, not pushy
+- If a rejection reason is known: address it briefly and directly
+- Freightos value in one sentence, concrete
+- CTA: 15-20 min discovery call
+- Placeholder: [Calendar link]
+- End with: "Vielen Dank und beste Grüsse,"
+- No name or company after sign-off
+- No bold, no markdown, no dashes
+- Max 5 sentences. Short and direct.`
+  }
 };
 
-const UI = {
-  de: { placeholder: 'Nachricht eingeben...', send: 'Senden', loading: 'Wird verarbeitet...', greeting: 'Hi Ben — Modus wählen und loslegen.' },
-  en: { placeholder: 'Type your message...', send: 'Send', loading: 'Thinking...', greeting: 'Hi Ben — pick a mode and get started.' }
-};
-
-function updateHint() {
-  document.getElementById('mode-hint').textContent = currentMode === 'inbound'
-    ? 'Inbound Lead — ' + currentLang.toUpperCase()
-    : MODES[currentMode][currentLang].hint;
-}
-
-function updateFieldLabels() {
-  const L = FIELD_LABELS[currentLang];
-  document.getElementById('lbl-anrede').textContent = L.anrede;
-  document.getElementById('lbl-name').textContent = L.name;
-  document.getElementById('lbl-unknown').textContent = L.unknown;
-  document.getElementById('lbl-existing').textContent = L.existing;
-  document.getElementById('lbl-company').textContent = L.company;
-  document.getElementById('lbl-position').textContent = L.position;
-  document.getElementById('lbl-product').textContent = L.product;
-  document.getElementById('lbl-leadtype').textContent = L.leadtype;
-  document.getElementById('lbl-notes').textContent = L.notes;
-  document.getElementById('generate-btn').textContent = L.generate;
-  document.getElementById('result-label').textContent = L.result;
-  document.getElementById('copy-btn').textContent = L.copy;
-  document.getElementById('back-btn').textContent = L.back;
-  document.getElementById('opt-placeholder').textContent = L.opt_placeholder;
-  document.getElementById('f-name').placeholder = L.placeholder_name;
-  document.getElementById('f-company').placeholder = L.placeholder_company;
-  document.getElementById('f-position').placeholder = L.placeholder_position;
-  document.getElementById('f-notes').placeholder = L.placeholder_notes;
-}
-
-function showView(mode) {
-  document.getElementById('chat-view').style.display = mode === 'inbound' ? 'none' : 'flex';
-  document.getElementById('inbound-view').style.display = mode === 'inbound' ? 'flex' : 'none';
-  document.getElementById('inbound-result').style.display = 'none';
-}
-
+// --- LANGUAGE TOGGLE ---
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentLang = btn.dataset.lang;
-    document.getElementById('user-input').placeholder = UI[currentLang].placeholder;
-    document.getElementById('send-btn').textContent = UI[currentLang].send;
+    lang = btn.dataset.lang;
     updateHint();
-    updateFieldLabels();
+    updateLabels();
   });
 });
 
+function updateHint() {
+  const labels = { research:'Research', outbound:'Outbound', inbound:'Inbound', internal:'Internal' };
+  document.getElementById('mode-hint').textContent = labels[currentMode] + ' — ' + lang.toUpperCase();
+}
+
+function updateLabels() {
+  const de = lang === 'de';
+  document.getElementById('user-input').placeholder = de ? 'Nachricht eingeben...' : 'Type your message...';
+  document.getElementById('send-btn').textContent = de ? 'Senden' : 'Send';
+  document.getElementById('lbl-ob-type').textContent = de ? 'Typ' : 'Type';
+  document.getElementById('lbl-ob-anrede').textContent = de ? 'Anrede' : 'Salutation';
+  document.getElementById('lbl-ob-firstname').textContent = de ? 'Vorname' : 'First Name';
+  document.getElementById('lbl-ob-lastname').textContent = de ? 'Nachname (Pflichtfeld)' : 'Last Name (required)';
+  document.getElementById('lbl-ob-company').textContent = de ? 'Unternehmen' : 'Company Name';
+  document.getElementById('lbl-ob-closedate').textContent = de ? 'Datum letzter Kontakt' : 'Close Date (if known)';
+  document.getElementById('lbl-ob-closereason').textContent = de ? 'Ablehnungsgrund' : 'Closed Reason (if known)';
+  document.getElementById('lbl-ob-notes').textContent = obSubmode === 'cold' ? (de ? 'Hook / Relevanz (Pflichtfeld)' : 'Hook / Relevance (required)') : (de ? 'Zusätzliche Notizen' : 'Additional Notes');
+  document.getElementById('lbl-ob-result').textContent = de ? 'Generierte Email' : 'Generated email';
+  document.getElementById('ob-back-btn').textContent = de ? '← Felder bearbeiten' : '← Edit fields';
+  document.getElementById('ob-copy-btn').textContent = de ? 'In Zwischenablage' : 'Copy to clipboard';
+  document.getElementById('lbl-ib-anrede').textContent = de ? 'Anrede' : 'Salutation';
+  document.getElementById('lbl-ib-name').textContent = de ? 'Prospect Name' : 'Prospect Name';
+  document.getElementById('lbl-ib-company').textContent = de ? 'Unternehmen' : 'Company Name';
+  document.getElementById('lbl-ib-position').textContent = de ? 'Position' : 'Position';
+  document.getElementById('lbl-ib-product').textContent = de ? 'Interessiertes Produkt / Feature' : 'Interested Product / Feature';
+  document.getElementById('lbl-ib-leadtype').textContent = de ? 'Lead Typ' : 'Lead Type';
+  document.getElementById('lbl-ib-unknown').textContent = de ? 'Interesse/Bedarf unbekannt' : 'Intent unknown';
+  document.getElementById('lbl-ib-existing').textContent = de ? 'Bestehender Kunde' : 'Existing client';
+  document.getElementById('lbl-ib-notes').textContent = de ? 'Zusätzliche Notizen' : 'Additional Notes';
+  document.getElementById('lbl-ib-result').textContent = de ? 'Generierte Email' : 'Generated email';
+  document.getElementById('ib-back-btn').textContent = de ? '← Felder bearbeiten' : '← Edit fields';
+  document.getElementById('ib-copy-btn').textContent = de ? 'In Zwischenablage' : 'Copy to clipboard';
+  document.getElementById('ob-firstname').placeholder = de ? 'z.B. Thomas' : 'e.g. Thomas';
+  document.getElementById('ob-lastname').placeholder = de ? 'z.B. Müller' : 'e.g. Müller';
+  document.getElementById('ob-company').placeholder = de ? 'z.B. Müller Logistics GmbH' : 'e.g. Müller Logistics GmbH';
+  document.getElementById('ob-closedate').placeholder = de ? 'z.B. Q3 2024' : 'e.g. Q3 2024';
+  document.getElementById('ob-closereason').placeholder = de ? 'z.B. Pricing, falscher Zeitpunkt...' : 'e.g. Pricing, wrong timing...';
+  document.getElementById('ob-notes').placeholder = obSubmode === 'cold' ? (de ? 'z.B. Habe gesehen dass ihr expandiert...' : "e.g. Saw you're expanding into new markets...") : (de ? 'z.B. Kontext zum letzten Kontakt...' : 'e.g. Context from last conversation...');
+  document.getElementById('ib-name').placeholder = de ? 'z.B. Müller' : 'e.g. Müller';
+  document.getElementById('ib-company').placeholder = de ? 'z.B. Müller Logistics GmbH' : 'e.g. Müller Logistics GmbH';
+  document.getElementById('ib-position').placeholder = de ? 'z.B. Head of Logistics' : 'e.g. Head of Logistics';
+  document.getElementById('ib-product').placeholder = de ? 'z.B. Rate Management' : 'e.g. Rate Management';
+  document.getElementById('ib-notes').placeholder = de ? 'z.B. Originalnachricht des Leads...' : "e.g. lead's original message...";
+  document.querySelector('#ib-leadtype option[value=""]').textContent = de ? '— Lead Typ wählen —' : '— Select Lead Type —';
+  document.getElementById('ob-generate-btn').textContent = de ? 'Generieren ✦' : 'Generate ✦';
+  document.getElementById('ib-generate-btn').textContent = de ? 'Generieren ✦' : 'Generate ✦';
+}
+
+// --- MODE SWITCHING ---
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentMode = btn.dataset.mode;
-    history = [];
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    if (currentMode === 'research' || currentMode === 'internal') {
+      document.getElementById('chat-view').classList.add('active');
+      chatHistory = [];
+      document.getElementById('messages').innerHTML = '<div class="msg assistant">Hi Ben — pick a mode and get started.</div>';
+    } else if (currentMode === 'outbound') {
+      document.getElementById('outbound-view').classList.add('active');
+    } else if (currentMode === 'inbound') {
+      document.getElementById('inbound-view').classList.add('active');
+    }
     updateHint();
-    showView(currentMode);
   });
 });
 
-document.getElementById('back-btn').addEventListener('click', () => {
-  document.getElementById('inbound-result').style.display = 'none';
-  document.getElementById('inbound-view').style.display = 'flex';
-});
-
-document.getElementById('clear-form-btn').addEventListener('click', () => {
-  document.getElementById('f-name').value = '';
-  document.getElementById('f-company').value = '';
-  document.getElementById('f-position').value = '';
-  document.getElementById('f-product').value = '';
-  document.getElementById('f-leadtype').value = '';
-  document.getElementById('f-notes').value = '';
-  document.getElementById('f-unknown').checked = false;
-  document.getElementById('f-existing').checked = false;
-  document.querySelectorAll('.anrede-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-herr').classList.add('active');
-  currentAnrede = 'Herr';
-  updateFieldLabels();
-});
-
-document.getElementById('copy-btn').addEventListener('click', () => {
-  const text = document.getElementById('result-text').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copy-btn');
-    const original = btn.textContent;
-    btn.textContent = '✓ Copied';
-    setTimeout(() => btn.textContent = original, 2000);
-  });
-});
-
-// Anrede toggle logic
-let currentAnrede = 'Herr';
-document.querySelectorAll('.anrede-btn').forEach(btn => {
+// --- OUTBOUND SUBMODE TOGGLE ---
+document.querySelectorAll('#outbound-view .toggle-btn[data-sub]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.anrede-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#outbound-view .toggle-btn[data-sub]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentAnrede = btn.dataset.anrede;
+    obSubmode = btn.dataset.sub;
+    const isClosedLost = obSubmode === 'closedlost';
+    document.getElementById('ob-closedate-group').classList.toggle('hidden', !isClosedLost);
+    document.getElementById('ob-closereason-group').classList.toggle('hidden', !isClosedLost);
+    updateLabels();
   });
 });
 
-document.getElementById('generate-btn').addEventListener('click', async () => {
-  const lastname = document.getElementById('f-name').value.trim();
-  const company = document.getElementById('f-company').value.trim();
-  const position = document.getElementById('f-position').value.trim();
-  const product = document.getElementById('f-product').value.trim();
-  const leadtype = document.getElementById('f-leadtype').value;
-  const notes = document.getElementById('f-notes').value.trim();
-  const unknownIntent = document.getElementById('f-unknown').checked;
-  const existingClient = document.getElementById('f-existing').checked;
+// --- OUTBOUND ANREDE TOGGLE ---
+document.querySelectorAll('#ob-anrede-toggle .toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#ob-anrede-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    obAnrede = btn.dataset.anrede;
+  });
+});
 
-  if (!lastname || !leadtype) {
-    alert(currentLang === 'de' ? 'Bitte mindestens Nachname und Lead Typ ausfüllen.' : 'Please fill in at least last name and lead type.');
-    return;
+// --- INBOUND ANREDE TOGGLE ---
+document.querySelectorAll('#ib-anrede-toggle .toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#ib-anrede-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ibAnrede = btn.dataset.anrede;
+  });
+});
+
+// --- OUTBOUND GENERATE ---
+document.getElementById('ob-generate-btn').addEventListener('click', async () => {
+  const lastName = document.getElementById('ob-lastname').value.trim();
+  if (!lastName) { alert(lang === 'de' ? 'Bitte Nachname ausfüllen.' : 'Please fill in last name.'); return; }
+  const firstName = document.getElementById('ob-firstname').value.trim();
+  const company = document.getElementById('ob-company').value.trim();
+  const notes = document.getElementById('ob-notes').value.trim();
+  const closeDate = document.getElementById('ob-closedate').value.trim();
+  const closeReason = document.getElementById('ob-closereason').value.trim();
+  const fullName = `${obAnrede} ${firstName ? firstName + ' ' : ''}${lastName}`;
+  let prompt = '';
+  if (obSubmode === 'cold') {
+    prompt = lang === 'de'
+      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${notes ? 'Hook/Notizen: ' + notes : ''}\n\nKalte Outbound-Email verfassen. Starte mit "Hallo, ${obAnrede} ${lastName},"`
+      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${notes ? 'Hook/Notes: ' + notes : ''}\n\nWrite a cold outbound email. Start with "Hallo, ${obAnrede} ${lastName},"`;
+  } else {
+    prompt = lang === 'de'
+      ? `Prospect: ${fullName}\nUnternehmen: ${company || 'unbekannt'}\n${closeDate ? 'Datum letzter Kontakt: ' + closeDate : ''}\n${closeReason ? 'Ablehnungsgrund: ' + closeReason : ''}\n${notes ? 'Notizen: ' + notes : ''}\n\nRe-Engagement-Email verfassen. Starte mit "Hallo, ${obAnrede} ${lastName},"`
+      : `Prospect: ${fullName}\nCompany: ${company || 'unknown'}\n${closeDate ? 'Last contact date: ' + closeDate : ''}\n${closeReason ? 'Close reason: ' + closeReason : ''}\n${notes ? 'Notes: ' + notes : ''}\n\nWrite a re-engagement email. Start with "Hallo, ${obAnrede} ${lastName},"`;
   }
-
-  const prompt = currentLang === 'de'
-    ? `Anrede: ${currentAnrede} ${lastname}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nInteressiertes Produkt/Feature: ${unknownIntent ? 'unbekannt — offen formulieren' : (product || 'unbekannt')}\nLead Typ: ${leadtype}${notes ? '\nZusätzliche Notizen: ' + notes : ''}${existingClient ? '\nKundentyp: Bestehender Kunde' : ''}\n\nBitte verfasse eine professionelle Antwort-Email. Beginne mit "Hallo, ${currentAnrede} ${lastname}," — niemals mit "Sehr geehrte". Kurze, klare Sätze. Keine Fettschrift. Kein Markdown. Email endet mit "Vielen Dank und beste Grüsse," — ohne Name oder Firma darunter.`
-    : `Salutation: ${currentAnrede} ${lastname}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nInterested Product/Feature: ${unknownIntent ? 'unknown — keep email open and exploratory' : (product || 'unknown')}\nLead Type: ${leadtype}${notes ? '\nAdditional Notes: ' + notes : ''}${existingClient ? '\nClient type: Existing client' : ''}\n\nDraft a professional response email. Start with "Hallo, ${currentAnrede} ${lastname}," — never with "Dear". Short, clear sentences. No bold text. No markdown. End with "Vielen Dank und beste Grüsse," — no name or company below.`;
-
-  const btn = document.getElementById('generate-btn');
-  btn.disabled = true;
-  btn.textContent = currentLang === 'de' ? 'Wird generiert...' : 'Generating...';
-
+  const btn = document.getElementById('ob-generate-btn');
+  btn.disabled = true; btn.textContent = lang === 'de' ? 'Generiert...' : 'Generating...';
   try {
-    const resp = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        system: INBOUND_SYSTEM[currentLang],
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+    const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: OUTBOUND_SYSTEM[obSubmode][lang], messages: [{ role: 'user', content: prompt }] }) });
     const data = await resp.json();
-    const reply = data.content?.find(b => b.type === 'text')?.text || 'No response received.';
-    document.getElementById('result-text').textContent = reply;
-    document.getElementById('inbound-view').style.display = 'none';
-    document.getElementById('inbound-result').style.display = 'flex';
-  } catch(e) {
-    alert(currentLang === 'de' ? 'Fehler: API nicht erreichbar.' : 'Error: could not reach the API.');
-  }
-
-  btn.disabled = false;
-  btn.textContent = FIELD_LABELS[currentLang].generate;
+    const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
+    document.getElementById('ob-result-text').textContent = reply;
+    document.querySelector('#outbound-view .form-scroll').style.display = 'none';
+    document.querySelector('#outbound-view .form-actions').style.display = 'none';
+    document.getElementById('ob-result').classList.remove('hidden');
+    document.getElementById('ob-result').style.display = 'flex';
+  } catch { alert('Error: could not reach the API.'); }
+  btn.disabled = false; btn.textContent = lang === 'de' ? 'Generieren ✦' : 'Generate ✦';
 });
 
+document.getElementById('ob-back-btn').addEventListener('click', () => {
+  document.querySelector('#outbound-view .form-scroll').style.display = 'flex';
+  document.querySelector('#outbound-view .form-actions').style.display = 'flex';
+  document.getElementById('ob-result').classList.add('hidden');
+});
+
+document.getElementById('ob-reset-btn').addEventListener('click', () => {
+  document.getElementById('ob-firstname').value = '';
+  document.getElementById('ob-lastname').value = '';
+  document.getElementById('ob-company').value = '';
+  document.getElementById('ob-closedate').value = '';
+  document.getElementById('ob-closereason').value = '';
+  document.getElementById('ob-notes').value = '';
+  document.querySelectorAll('#ob-anrede-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('#ob-anrede-toggle .toggle-btn[data-anrede="Herr"]').classList.add('active');
+  obAnrede = 'Herr';
+  document.querySelector('#outbound-view .form-scroll').style.display = 'flex';
+  document.querySelector('#outbound-view .form-actions').style.display = 'flex';
+  document.getElementById('ob-result').classList.add('hidden');
+});
+
+document.getElementById('ob-copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('ob-result-text').textContent);
+  const btn = document.getElementById('ob-copy-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.textContent = orig, 2000);
+});
+
+// --- INBOUND GENERATE ---
+document.getElementById('ib-generate-btn').addEventListener('click', async () => {
+  const name = document.getElementById('ib-name').value.trim();
+  const leadtype = document.getElementById('ib-leadtype').value;
+  if (!name || !leadtype) { alert(lang === 'de' ? 'Bitte Name und Lead Typ ausfüllen.' : 'Please fill in name and lead type.'); return; }
+  const company = document.getElementById('ib-company').value.trim();
+  const position = document.getElementById('ib-position').value.trim();
+  const product = document.getElementById('ib-product').value.trim();
+  const notes = document.getElementById('ib-notes').value.trim();
+  const unknownIntent = document.getElementById('ib-unknown').checked;
+  const existingClient = document.getElementById('ib-existing').checked;
+  const prompt = lang === 'de'
+    ? `Anrede: ${ibAnrede} ${name}\nUnternehmen: ${company || 'unbekannt'}\nPosition: ${position || 'unbekannt'}\nProdukt/Feature: ${unknownIntent ? 'unbekannt — offen formulieren' : (product || 'unbekannt')}\nLead Typ: ${leadtype}${existingClient ? '\nKundentyp: Bestehender Kunde' : ''}${notes ? '\nNotizen: ' + notes : ''}\n\nEmail verfassen. Beginne mit "Hallo, ${ibAnrede} ${name},"` 
+    : `Salutation: ${ibAnrede} ${name}\nCompany: ${company || 'unknown'}\nPosition: ${position || 'unknown'}\nProduct/Feature: ${unknownIntent ? 'unknown — keep open' : (product || 'unknown')}\nLead Type: ${leadtype}${existingClient ? '\nClient type: Existing client' : ''}${notes ? '\nNotes: ' + notes : ''}\n\nDraft the email. Start with "Hallo, ${ibAnrede} ${name},"`;
+  const btn = document.getElementById('ib-generate-btn');
+  btn.disabled = true; btn.textContent = lang === 'de' ? 'Generiert...' : 'Generating...';
+  try {
+    const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: INBOUND_SYSTEM[lang], messages: [{ role: 'user', content: prompt }] }) });
+    const data = await resp.json();
+    const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
+    document.getElementById('ib-result-text').textContent = reply;
+    document.getElementById('ib-form-scroll').style.display = 'none';
+    document.getElementById('ib-form-actions').style.display = 'none';
+    document.getElementById('ib-result').classList.remove('hidden');
+    document.getElementById('ib-result').style.display = 'flex';
+  } catch { alert('Error: could not reach the API.'); }
+  btn.disabled = false; btn.textContent = lang === 'de' ? 'Generieren ✦' : 'Generate ✦';
+});
+
+document.getElementById('ib-back-btn').addEventListener('click', () => {
+  document.getElementById('ib-form-scroll').style.display = 'flex';
+  document.getElementById('ib-form-actions').style.display = 'flex';
+  document.getElementById('ib-result').classList.add('hidden');
+});
+
+document.getElementById('ib-reset-btn').addEventListener('click', () => {
+  document.getElementById('ib-name').value = '';
+  document.getElementById('ib-company').value = '';
+  document.getElementById('ib-position').value = '';
+  document.getElementById('ib-product').value = '';
+  document.getElementById('ib-leadtype').value = '';
+  document.getElementById('ib-notes').value = '';
+  document.getElementById('ib-unknown').checked = false;
+  document.getElementById('ib-existing').checked = false;
+  document.querySelectorAll('#ib-anrede-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('#ib-anrede-toggle .toggle-btn[data-anrede="Herr"]').classList.add('active');
+  ibAnrede = 'Herr';
+  document.getElementById('ib-form-scroll').style.display = 'flex';
+  document.getElementById('ib-form-actions').style.display = 'flex';
+  document.getElementById('ib-result').classList.add('hidden');
+});
+
+document.getElementById('ib-copy-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('ib-result-text').textContent);
+  const btn = document.getElementById('ib-copy-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.textContent = orig, 2000);
+});
+
+// --- CHAT ---
 document.getElementById('user-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
 });
-
 document.getElementById('user-input').addEventListener('input', function() {
   this.style.height = 'auto';
   this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
-
-document.getElementById('send-btn').addEventListener('click', sendMessage);
+document.getElementById('send-btn').addEventListener('click', sendChat);
 
 function addMsg(role, text) {
   const el = document.createElement('div');
@@ -398,40 +592,28 @@ function addMsg(role, text) {
   return el;
 }
 
-async function sendMessage() {
+async function sendChat() {
   const input = document.getElementById('user-input');
   const text = input.value.trim();
   if (!text) return;
-  input.value = '';
-  input.style.height = 'auto';
+  input.value = ''; input.style.height = 'auto';
   addMsg('user', text);
-  history.push({ role: 'user', content: text });
-  const loadingEl = addMsg('assistant loading', UI[currentLang].loading);
+  chatHistory.push({ role: 'user', content: text });
+  const loadingEl = addMsg('assistant loading', lang === 'de' ? 'Wird verarbeitet...' : 'Thinking...');
   document.getElementById('send-btn').disabled = true;
   try {
-    const resp = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        system: MODES[currentMode][currentLang].system,
-        messages: history
-      })
-    });
+    const resp = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: CHAT_SYSTEMS[currentMode][lang], messages: chatHistory }) });
     const data = await resp.json();
     const reply = data.content?.find(b => b.type === 'text')?.text || 'No response.';
     loadingEl.classList.remove('loading');
     loadingEl.textContent = reply;
-    history.push({ role: 'assistant', content: reply });
-  } catch(e) {
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch {
     loadingEl.classList.remove('loading');
-    loadingEl.textContent = currentLang === 'de' ? 'Fehler: API nicht erreichbar.' : 'Error: could not reach the API.';
+    loadingEl.textContent = 'Error: could not reach the API.';
   }
   document.getElementById('send-btn').disabled = false;
 }
-
-updateFieldLabels();
 </script>
 
 
